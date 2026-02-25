@@ -1,0 +1,14 @@
+# Python
+*.py
+*.pyc
+__pycache__/
+.venv/
+
+# Fontes (PDFs internos)
+fontes/
+
+# Markdown interno
+contexto_pccs.md
+
+# VS Code
+.vscode/

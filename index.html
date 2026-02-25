@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PCCS – SGP/ALMT</title>
+  <style>
+    :root {
+      --verde:   #1a4f3a;
+      --verde2:  #256b4f;
+      --ouro:    #c9a84c;
+      --ouro2:   #e8c96a;
+      --cinza1:  #f4f6f8;
+      --cinza2:  #e2e8f0;
+      --cinza3:  #a0aec0;
+      --txt:     #1a202c;
+      --branco:  #ffffff;
+      --azul:    #2b6cb0;
+      --vermelho:#c53030;
+      --verde3:  #276749;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--cinza1);
+      color: var(--txt);
+      font-size: 14px;
+    }
+
+    /* ──────── CABEÇALHO ──────── */
+    header {
+      background: linear-gradient(135deg, var(--verde) 0%, var(--verde2) 100%);
+      color: var(--branco);
+      padding: 28px 40px 22px;
+      text-align: center;
+      border-bottom: 4px solid var(--ouro);
+      position: relative;
+    }
+    header .subtag {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ouro2);
+      margin-bottom: 6px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    header h2 {
+      font-size: 15px;
+      font-weight: 400;
+      margin-top: 6px;
+      color: var(--ouro2);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    header .data {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--cinza2);
+      letter-spacing: 1px;
+    }
+    header .selos {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .selo {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid var(--ouro);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      color: var(--ouro2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ──────── ABAS ──────── */
+    nav.tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: var(--verde);
+      padding: 0 40px;
+    }
+    nav.tabs button {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.65);
+      padding: 14px 32px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      font-family: inherit;
+    }
+    nav.tabs button:hover {
+      color: var(--ouro2);
+      background: rgba(255,255,255,0.06);
+    }
+    nav.tabs button.active {
+      color: var(--ouro2);
+      border-bottom: 3px solid var(--ouro);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ──────── CONTEÚDO ──────── */
+    .conteudo {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 24px 60px;
+    }
+    .secao { display: none; }
+    .secao.ativa { display: block; }
+
+    /* ──────── CARTÕES KPI ──────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .kpi {
+      background: var(--branco);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border-left: 4px solid var(--ouro);
+    }
+    .kpi.alerta { border-left-color: var(--vermelho); }
+    .kpi.positivo { border-left-color: var(--verde3); }
+    .kpi.neutro { border-left-color: var(--azul); }
+    .kpi .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--cinza3);
+      margin-bottom: 6px;
+    }
+    .kpi .valor {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--txt);
+      line-height: 1;
+    }
+    .kpi .sub {
+      font-size: 11px;
+      color: var(--cinza3);
+      margin-top: 4px;
+    }
+
+    /* ──────── SEÇÃO TÍTULO ──────── */
+    .secao-titulo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--verde);
+      border-bottom: 2px solid var(--ouro);
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sub-titulo {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--verde2);
+      margin: 28px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sub-titulo::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--ouro);
+      border-radius: 2px;
+    }
+
+    /* ──────── TABELAS SALARIAIS ──────── */
+    .tabela-wrap { overflow-x: auto; margin-bottom: 24px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--branco);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    thead tr {
+      background: var(--verde);
+      color: var(--branco);
+    }
+    thead th {
+      padding: 10px 14px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+    thead th:first-child { text-align: center; }
+    tbody tr:nth-child(even) { background: var(--cinza1); }
+    tbody tr:hover { background: #edf2f7; }
+    tbody td {
+      padding: 8px 14px;
+      text-align: right;
+      border-bottom: 1px solid var(--cinza2);
+    }
+    tbody td:first-child {
+      text-align: center;
+      font-weight: 600;
+      color: var(--verde2);
+      border-right: 2px solid var(--cinza2);
+    }
+    .th-classe {
+      background: var(--verde2) !important;
+      font-size: 13px !important;
+      letter-spacing: 1px;
+    }
+    tfoot tr { background: var(--verde); color: var(--branco); }
+    tfoot td {
+      padding: 8px 14px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 12px;
+      border: none;
+    }
+    tfoot td:first-child { text-align: center; }
+
+    /* ──────── DESTAQUE NOVO PCCS ──────── */
+    .destaque-novo {
+      background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+      border: 2px solid var(--verde3);
+      border-radius: 8px;
+    }
+    .destaque-novo thead tr { background: var(--verde3); }
+
+    /* ──────── ALERTAS / APONTAMENTOS ──────── */
+    .alerta-box {
+      background: #fff5f5;
+      border-left: 4px solid var(--vermelho);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .alerta-box h4 { color: var(--vermelho); font-size: 13px; margin-bottom: 4px; }
+    .alerta-box p { font-size: 13px; color: #742a2a; line-height: 1.5; }
+
+    .info-box {
+      background: #ebf8ff;
+      border-left: 4px solid var(--azul);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .info-box h4 { color: var(--azul); font-size: 13px; margin-bottom: 4px; }
+    .info-box p { font-size: 13px; color: #2c5282; line-height: 1.5; }
+
+    .sucesso-box {
+      background: #f0fff4;
+      border-left: 4px solid var(--verde3);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .sucesso-box h4 { color: var(--verde3); font-size: 13px; margin-bottom: 4px; }
+    .sucesso-box p { font-size: 13px; color: #22543d; line-height: 1.5; }
+
+    /* ──────── TABELA COMPARATIVA ──────── */
+    .tabela-comp thead tr { background: var(--azul); }
+    .tabela-comp .org { font-weight: 600; color: var(--azul); text-align: left !important; }
+    .tabela-comp .cargo { font-size: 12px; color: var(--cinza3); text-align: left !important; font-weight: 400; }
+
+    /* ──────── BARRA DE PROGRESSO ──────── */
+    .barra-wrap { margin: 6px 0 12px; }
+    .barra-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: var(--txt);
+    }
+    .barra-bg {
+      background: var(--cinza2);
+      border-radius: 4px;
+      height: 14px;
+      overflow: hidden;
+    }
+    .barra-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+    .barra-fill.verde { background: var(--verde2); }
+    .barra-fill.ouro  { background: var(--ouro); }
+    .barra-fill.azul  { background: var(--azul); }
+    .barra-fill.verm  { background: #fc8181; }
+
+    /* ──────── GRID MELHORIAS ──────── */
+    .melhorias-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .melhoria-card {
+      background: var(--branco);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border-top: 3px solid var(--verde3);
+    }
+    .melhoria-card.destaque { border-top-color: var(--ouro); }
+    .melhoria-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--verde);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .melhoria-card p { font-size: 13px; color: #4a5568; line-height: 1.6; }
+    .melhoria-card .stat {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--verde3);
+      margin: 8px 0 4px;
+    }
+    .melhoria-card.destaque .stat { color: var(--ouro); }
+
+    /* ──────── TABELA EVOLUÇÃO ANO A ANO ──────── */
+    .tabela-evolucao thead tr { background: #4a5568; }
+
+    /* ──────── BADGE ──────── */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .badge.ext  { background: #fed7d7; color: #c53030; }
+    .badge.anc  { background: #c6f6d5; color: #22543d; }
+    .badge.ref  { background: #bee3f8; color: #2a69a5; }
+
+    /* ──────── NOTA RODAPÉ ──────── */
+    .nota {
+      font-size: 11px;
+      color: var(--cinza3);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* ──────── DISPARIDADE ──────── */
+    .disp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 640px) { .disp-grid { grid-template-columns: 1fr; } }
+    .disp-card {
+      background: var(--branco);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .disp-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .disp-card.antes h4 { color: var(--vermelho); }
+    .disp-card.depois h4 { color: var(--verde3); }
+    .disp-num em {
+      font-style: normal;
+      font-size: 32px;
+      font-weight: 800;
+    }
+    .disp-num.ruim em { color: var(--vermelho); }
+    .disp-num.bom em  { color: var(--verde3); }
+    .disp-num .unit { font-size: 14px; color: var(--cinza3); }
+    .disp-num .desc { font-size: 12px; color: var(--cinza3); margin-top: 4px; }
+
+    /* ──────── LAYOUT TABELA + DIAGNÓSTICO (2 COLUNAS) ──────── */
+    .td-grid {
+      display: grid;
+      grid-template-columns: 58% 40%;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 960px) { .td-grid { grid-template-columns: 1fr; } }
+    .td-tabela { overflow-x: auto; }
+    .td-diag { display: flex; flex-direction: column; gap: 12px; }
+    .td-diag .diag-titulo {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--verde);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--cinza2);
+      margin-bottom: 4px;
+    }
+
+    /* ──────── SELETOR DE ANO (Novo PCCS) ──────── */
+    .ano-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0 20px;
+      flex-wrap: wrap;
+    }
+    .ano-tabs button {
+      background: var(--cinza2);
+      border: 2px solid transparent;
+      border-radius: 6px;
+      color: var(--txt);
+      padding: 8px 22px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s;
+      letter-spacing: 0.5px;
+    }
+    .ano-tabs button.active {
+      background: var(--verde);
+      border-color: var(--verde);
+      color: var(--branco);
+    }
+    .ano-tabs button:hover:not(.active) {
+      border-color: var(--verde2);
+      color: var(--verde2);
+      background: #e8f4ef;
+    }
+    .ano-painel { display: none; }
+    .ano-painel.ativo { display: block; }
+    .ano-painel .td-grid { grid-template-columns: 55% 43%; }
+
+    /* ──────── MODAL ──────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 1000;
+      overflow-y: auto; padding: 24px; box-sizing: border-box;
+    }
+    .modal-overlay.aberto { display: flex; align-items: flex-start; justify-content: center; }
+    .modal-box {
+      background: var(--branco); border-radius: 10px;
+      max-width: 1000px; width: 100%; padding: 28px 32px;
+      position: relative; margin: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .modal-titulo { font-size: 17px; font-weight: 700; color: var(--verde); margin-bottom: 4px; }
+    .modal-sub { font-size: 12px; color: var(--cinza3); margin-bottom: 18px; }
+    .modal-fechar {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; font-size: 24px;
+      cursor: pointer; color: var(--cinza3); font-family: inherit; line-height: 1;
+    }
+    .modal-fechar:hover { color: var(--verde); }
+    .modal-secao {
+      font-size: 12px; font-weight: 700; color: var(--verde2);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      padding-top: 16px; margin: 16px 0 8px;
+      border-top: 1px solid var(--cinza2);
+    }
+    .modal-secao:first-of-type { border-top: none; padding-top: 0; }
+
+    /* ──────── CARDS DE ÓRGÃO ──────── */
+    .orgaos-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0 28px;
+    }
+    @media (max-width: 840px) { .orgaos-grid { grid-template-columns: 1fr 1fr; } }
+    .orgao-card {
+      background: white; border: 1.5px solid var(--cinza2); border-radius: 10px;
+      padding: 18px 14px; text-align: center; cursor: pointer;
+      transition: all 0.18s; user-select: none;
+    }
+    .orgao-card:hover { border-color: var(--verde2); box-shadow: 0 3px 14px rgba(26,79,58,0.14); }
+    .orgao-card .oc-sigla { font-size: 22px; font-weight: 800; color: var(--verde); margin-bottom: 4px; }
+    .orgao-card .oc-nome { font-size: 11px; color: var(--cinza3); margin-bottom: 12px; line-height: 1.5; min-height: 34px; }
+    .orgao-card .oc-btn {
+      font-size: 11px; font-weight: 700; color: var(--verde2);
+      border: 1.5px solid var(--verde2); border-radius: 4px;
+      padding: 4px 14px; display: inline-block; transition: all 0.15s;
+    }
+    .orgao-card:hover .oc-btn { background: var(--verde2); color: white; }
+
+    /* ──────── GRID PISO / TETO ──────── */
+    .piso-teto-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 12px;
+    }
+    @media (max-width: 860px) { .piso-teto-grid { grid-template-columns: 1fr; } }
+    .piso-teto-titulo {
+      font-size: 12px; font-weight: 700; color: var(--verde2);
+      text-transform: uppercase; letter-spacing: 0.4px;
+      margin-bottom: 10px; padding-bottom: 6px;
+      border-bottom: 1px solid var(--cinza2);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     CABEÇALHO
+══════════════════════════════════════════════════════════ -->
+<header>
+  <div class="subtag">Assembleia Legislativa do Estado de Mato Grosso</div>
+  <h1>Secretaria de Gestão de Pessoas – SGP/ALMT</h1>
+  <h2>Estudo sobre o Plano de Cargos, Carreiras e Salários – PCCS</h2>
+  <div class="data">Fevereiro / 2026</div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAVEGAÇÃO
+══════════════════════════════════════════════════════════ -->
+<nav class="tabs">
+  <button class="active" onclick="mostrar('vigente', this)">PCCS Vigente</button>
+  <button onclick="mostrar('outros', this)">Outros Planos</button>
+  <button onclick="mostrar('novo', this)">Novo PCCS</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     CONTEÚDO
+══════════════════════════════════════════════════════════ -->
+<div class="conteudo">
+
+  <!-- ╔══════════════════════════════════╗
+       ║    SEÇÃO 1 – PCCS VIGENTE       ║
+       ╚══════════════════════════════════╝ -->
+  <div id="secao-vigente" class="secao ativa">
+
+    <div class="secao-titulo">PCCS Vigente — Tabelas Salariais (Janeiro/2026)</div>
+
+    <!-- KPIs rápidos -->
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="label">Cargos Efetivos</div>
+        <div class="valor">3</div>
+        <div class="sub">Fundamental · Médio · Analista</div>
+      </div>
+      <div class="kpi neutro">
+        <div class="label">Classes por Cargo</div>
+        <div class="valor">4</div>
+        <div class="sub">A · B · C · D</div>
+      </div>
+      <div class="kpi neutro">
+        <div class="label">Níveis por Classe</div>
+        <div class="valor">10</div>
+        <div class="sub">N1 → N10</div>
+      </div>
+      <div class="kpi alerta">
+        <div class="label">Piso — Técnico Médio</div>
+        <div class="valor">R$ 4.803</div>
+        <div class="sub">Cl. A · N1</div>
+      </div>
+      <div class="kpi alerta">
+        <div class="label">Teto — Técnico Médio</div>
+        <div class="valor">R$ 14.134</div>
+        <div class="sub">Cl. D · N10</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Teto — Analista</div>
+        <div class="valor">R$ 24.745</div>
+        <div class="sub">Cl. D · N10</div>
+      </div>
+    </div>
+
+    <!-- ── CARGO 1: FUNDAMENTAL ── -->
+    <div class="sub-titulo">
+      Técnico Legislativo de Nível Fundamental
+      <span class="badge ext">Cargo em Extinção</span>
+    </div>
+    <div class="td-grid">
+      <div class="td-tabela">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="text-align:center;vertical-align:middle">Nível</th>
+              <th colspan="4" class="th-classe">Classe</th>
+            </tr>
+            <tr>
+              <th class="th-classe">A</th>
+              <th class="th-classe">B</th>
+              <th class="th-classe">C</th>
+              <th class="th-classe">D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td> <td>R$ 4.563,28</td><td>R$ 5.249,16</td><td>R$ 6.038,12</td><td>R$ 8.113,86</td></tr>
+            <tr><td>2</td> <td>R$ 4.740,62</td><td>R$ 5.453,07</td><td>R$ 6.272,62</td><td>R$ 8.598,45</td></tr>
+            <tr><td>3</td> <td>R$ 4.921,79</td><td>R$ 5.661,68</td><td>R$ 6.512,49</td><td>R$ 9.106,95</td></tr>
+            <tr><td>4</td> <td>R$ 5.107,29</td><td>R$ 5.874,88</td><td>R$ 6.757,93</td><td>R$ 9.640,07</td></tr>
+            <tr><td>5</td> <td>R$ 5.297,06</td><td>R$ 6.093,09</td><td>R$ 7.007,20</td><td>R$ 10.199,40</td></tr>
+            <tr><td>6</td> <td>R$ 5.491,21</td><td>R$ 6.316,41</td><td>R$ 7.265,53</td><td>R$ 10.785,85</td></tr>
+            <tr><td>7</td> <td>R$ 5.689,61</td><td>R$ 6.544,67</td><td>R$ 7.528,35</td><td>R$ 11.400,43</td></tr>
+            <tr><td>8</td> <td>R$ 5.892,57</td><td>R$ 6.778,21</td><td>R$ 7.796,91</td><td>R$ 12.044,64</td></tr>
+            <tr><td>9</td> <td>R$ 6.100,14</td><td>R$ 7.016,96</td><td>R$ 8.071,51</td><td>R$ 12.719,81</td></tr>
+            <tr><td>10</td><td>R$ 6.312,45</td><td>R$ 7.261,01</td><td>R$ 8.352,53</td><td>R$ 13.427,24</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 4.563,28 (Cl.A · N1)</td></tr>
+            <tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 13.427,24 (Cl.D · N10)</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="td-diag">
+        <div class="diag-titulo">Diagnóstico — Nível Fundamental</div>
+        <div class="alerta-box">
+          <h4>🔴 Cargo em processo de extinção</h4>
+          <p>Nenhum novo servidor ingressa neste cargo. Os atuais são os últimos titulares — a tabela permanece congelada até a vacância total.</p>
+        </div>
+        <div class="alerta-box">
+          <h4>🔴 Tabela equiparada ao Nível Médio</h4>
+          <p>Na prática, os vencimentos do Fundamental são praticamente idênticos aos do Médio — uma distorção que gera insatisfação entre servidores que percebem a falta de diferenciação por escolaridade.</p>
+        </div>
+        <div class="info-box">
+          <h4>ℹ Amplitude de carreira: 194%</h4>
+          <p>O servidor que percorre a carreira inteira (Cl.A N1 → Cl.D N10) obtém um crescimento de 194% no vencimento — estrutura idêntica ao Nível Médio vigente.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARGO 2: TÉCNICO MÉDIO ── -->
+    <div class="sub-titulo">Técnico Legislativo de Nível Médio</div>
+    <div class="td-grid">
+      <div class="td-tabela">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="text-align:center;vertical-align:middle">Nível</th>
+              <th colspan="4" class="th-classe">Classe</th>
+            </tr>
+            <tr>
+              <th class="th-classe">A</th>
+              <th class="th-classe">B</th>
+              <th class="th-classe">C</th>
+              <th class="th-classe">D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td> <td>R$ 4.803,46</td><td>R$ 5.525,45</td><td>R$ 6.355,90</td><td>R$ 8.540,89</td></tr>
+            <tr><td>2</td> <td>R$ 4.990,13</td><td>R$ 5.740,07</td><td>R$ 6.582,18</td><td>R$ 9.051,00</td></tr>
+            <tr><td>3</td> <td>R$ 5.180,84</td><td>R$ 5.959,67</td><td>R$ 6.855,24</td><td>R$ 9.586,26</td></tr>
+            <tr><td>4</td> <td>R$ 5.376,10</td><td>R$ 6.184,08</td><td>R$ 7.113,63</td><td>R$ 10.147,45</td></tr>
+            <tr><td>5</td> <td>R$ 5.575,84</td><td>R$ 6.413,78</td><td>R$ 7.376,00</td><td>R$ 10.736,20</td></tr>
+            <tr><td>6</td> <td>R$ 5.780,23</td><td>R$ 6.648,84</td><td>R$ 7.647,90</td><td>R$ 11.353,53</td></tr>
+            <tr><td>7</td> <td>R$ 5.989,02</td><td>R$ 6.889,13</td><td>R$ 7.924,58</td><td>R$ 12.000,45</td></tr>
+            <tr><td>8</td> <td>R$ 6.202,71</td><td>R$ 7.134,97</td><td>R$ 8.207,28</td><td>R$ 12.678,54</td></tr>
+            <tr><td>9</td> <td>R$ 6.421,23</td><td>R$ 7.386,27</td><td>R$ 8.496,34</td><td>R$ 13.389,27</td></tr>
+            <tr><td>10</td><td>R$ 6.644,69</td><td>R$ 7.643,15</td><td>R$ 8.792,13</td><td>R$ 14.133,93</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 4.803,46 (Cl.A · N1)</td></tr>
+            <tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 14.133,93 (Cl.D · N10)</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="td-diag">
+        <div class="diag-titulo">Diagnóstico — Nível Médio</div>
+        <div class="alerta-box">
+          <h4>🔴 Piso 40% abaixo do mercado</h4>
+          <p>R$ 4.803,46 frente a R$ 6.721,82 do MPE-MT — o principal órgão de referência no Estado. Isso prejudica a atração de novos servidores qualificados.</p>
+        </div>
+        <div class="alerta-box">
+          <h4>🔴 Relação com o Analista piora ao longo da carreira</h4>
+          <p>O Técnico representa 53,4% do Analista no N1 e cai para 45,8% no N10 — o servidor é penalizado quanto mais avança. O fosso <em>cresce</em> com o tempo.</p>
+          <div class="barra-wrap" style="margin-top:10px">
+            <div class="barra-label"><span>N1 — Técnico / Analista</span><span>53,4%</span></div>
+            <div class="barra-bg"><div class="barra-fill verm" style="width:53.4%"></div></div>
+          </div>
+          <div class="barra-wrap">
+            <div class="barra-label"><span>N5 — Técnico / Analista</span><span>49,9%</span></div>
+            <div class="barra-bg"><div class="barra-fill verm" style="width:49.9%"></div></div>
+          </div>
+          <div class="barra-wrap">
+            <div class="barra-label"><span>N10 — Técnico / Analista</span><span>45,8%</span></div>
+            <div class="barra-bg"><div class="barra-fill verm" style="width:45.8%"></div></div>
+          </div>
+        </div>
+        <div class="alerta-box">
+          <h4>🔴 Apenas 4 Classes — sem Classe E</h4>
+          <p>A ausência da Classe E limita a perspectiva de carreira. O teto atual (R$ 14.134) é insuficiente frente ao mercado estadual.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARGO 3: ANALISTA ── -->
+    <div class="sub-titulo">Analista Legislativo</div>
+    <div class="td-grid">
+      <div class="td-tabela">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="text-align:center;vertical-align:middle">Nível</th>
+              <th colspan="4" class="th-classe">Classe</th>
+            </tr>
+            <tr>
+              <th class="th-classe">A</th>
+              <th class="th-classe">B</th>
+              <th class="th-classe">C</th>
+              <th class="th-classe">D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td> <td>R$ 8.990,18</td><td>R$ 10.788,21</td><td>R$ 12.945,85</td><td>R$ 15.535,02</td></tr>
+            <tr><td>2</td> <td>R$ 9.499,54</td><td>R$ 11.399,45</td><td>R$ 13.679,33</td><td>R$ 16.415,18</td></tr>
+            <tr><td>3</td> <td>R$ 10.032,08</td><td>R$ 12.038,48</td><td>R$ 14.446,18</td><td>R$ 17.335,41</td></tr>
+            <tr><td>4</td> <td>R$ 10.588,74</td><td>R$ 12.706,48</td><td>R$ 15.247,79</td><td>R$ 18.297,32</td></tr>
+            <tr><td>5</td> <td>R$ 11.170,51</td><td>R$ 13.404,62</td><td>R$ 16.085,54</td><td>R$ 19.302,65</td></tr>
+            <tr><td>6</td> <td>R$ 11.778,43</td><td>R$ 14.134,13</td><td>R$ 16.960,96</td><td>R$ 20.353,14</td></tr>
+            <tr><td>7</td> <td>R$ 12.413,58</td><td>R$ 14.896,31</td><td>R$ 17.875,54</td><td>R$ 21.450,67</td></tr>
+            <tr><td>8</td> <td>R$ 13.077,04</td><td>R$ 15.692,46</td><td>R$ 18.830,95</td><td>R$ 22.597,14</td></tr>
+            <tr><td>9</td> <td>R$ 13.769,98</td><td>R$ 16.523,98</td><td>R$ 19.828,79</td><td>R$ 23.794,55</td></tr>
+            <tr><td>10</td><td>R$ 14.493,62</td><td>R$ 17.392,35</td><td>R$ 20.870,80</td><td>R$ 24.744,83</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 8.990,18 (Cl.A · N1)</td></tr>
+            <tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 24.744,83 (Cl.D · N10)</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="td-diag">
+        <div class="diag-titulo">Diagnóstico — Analista</div>
+        <div class="alerta-box">
+          <h4>🔴 Piso 33% abaixo do MPE-MT</h4>
+          <p>O piso do Analista ALMT (R$ 8.990) está 49,5% abaixo do piso equivalente no MPE-MT (R$ 13.444), tornando a carreira pouco atrativa para profissionais de nível superior.</p>
+        </div>
+        <div class="alerta-box">
+          <h4>🔴 Gap com o Técnico cresce na carreira</h4>
+          <p>O Analista parte ganhando 87% a mais que o Técnico (N1) e termina ganhando 118% a mais (N10 Cl.A). A relação piora progressivamente — sem critério técnico que justifique a ampliação.</p>
+          <div class="barra-wrap" style="margin-top:10px">
+            <div class="barra-label"><span>Gap N1 médio geral</span><span>+92,0%</span></div>
+            <div class="barra-bg"><div class="barra-fill ouro" style="width:65%"></div></div>
+          </div>
+          <div class="barra-wrap">
+            <div class="barra-label"><span>Gap N5 médio geral</span><span>+101,8%</span></div>
+            <div class="barra-bg"><div class="barra-fill ouro" style="width:75%"></div></div>
+          </div>
+          <div class="barra-wrap">
+            <div class="barra-label"><span>Gap N10 médio geral</span><span>+114,5%</span></div>
+            <div class="barra-bg"><div class="barra-fill ouro" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="alerta-box">
+          <h4>🔴 Apenas 4 Classes — sem Classe E</h4>
+          <p>O teto de R$ 24.745 (Cl.D · N10) fica 31% abaixo do teto equivalente no MPE-MT (R$ 35.850). Sem a Classe E, o Analista sênior não tem para onde progredir.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /secao-vigente -->
+
+
+  <!-- ╔══════════════════════════════════╗
+       ║    SEÇÃO 2 – OUTROS PLANOS      ║
+       ╚══════════════════════════════════╝ -->
+  <div id="secao-outros" class="secao">
+
+    <div class="secao-titulo">Outros Planos — Benchmarking com o Estado de Mato Grosso</div>
+
+    <div class="kpi-grid">
+      <div class="kpi neutro">
+        <div class="label">Órgãos pesquisados</div>
+        <div class="valor">3</div>
+        <div class="sub">MPE-MT · TCE-MT · DPE-MT</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Piso equivalente ao Médio</div>
+        <div class="valor">R$ 6.722</div>
+        <div class="sub">MPE-MT — jan/2026</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Piso equivalente ao Superior</div>
+        <div class="valor">R$ 13.444</div>
+        <div class="sub">MPE-MT — jan/2026</div>
+      </div>
+      <div class="kpi alerta">
+        <div class="label">Piso ALMT Técnico Médio</div>
+        <div class="valor">R$ 4.803</div>
+        <div class="sub">28,6% abaixo do MPE-MT</div>
+      </div>
+    </div>
+
+    <!-- TABELA COMPARATIVA RESUMIDA -->
+    <div class="sub-titulo">Visão Comparativa — Piso e Teto por Equivalência de Cargo</div>
+
+    <div class="tabela-wrap">
+      <table class="tabela-comp">
+        <thead>
+          <tr>
+            <th style="text-align:left;width:180px">Órgão</th>
+            <th style="text-align:left">Cargo / Nível</th>
+            <th>Equivalência ALMT</th>
+            <th>Piso</th>
+            <th>Teto</th>
+            <th>Estrutura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ALMT -->
+          <tr style="background:#fffbeb">
+            <td class="org">ALMT (vigente)</td>
+            <td class="cargo">Técnico Legislativo Médio</td>
+            <td style="text-align:center">Nível Médio</td>
+            <td>R$ 4.803,46</td>
+            <td>R$ 14.133,93</td>
+            <td style="text-align:center">4 Cl · 10 Ní</td>
+          </tr>
+          <tr style="background:#fffbeb">
+            <td class="org">ALMT (vigente)</td>
+            <td class="cargo">Analista Legislativo</td>
+            <td style="text-align:center">Nível Superior</td>
+            <td>R$ 8.990,18</td>
+            <td>R$ 24.744,83</td>
+            <td style="text-align:center">4 Cl · 10 Ní</td>
+          </tr>
+          <!-- LINHA -->
+          <tr><td colspan="6" style="background:var(--cinza2);height:2px;padding:0"></td></tr>
+          <!-- MPE-MT -->
+          <tr>
+            <td class="org">MPE-MT</td>
+            <td class="cargo">Analista Ministerial — Nível Médio <span class="badge ref">Lei 13.220</span></td>
+            <td style="text-align:center">Nível Médio</td>
+            <td>R$ 6.721,82</td>
+            <td>R$ 19.045,26</td>
+            <td style="text-align:center">4 Cl · 7 Ní</td>
+          </tr>
+          <tr>
+            <td class="org">MPE-MT</td>
+            <td class="cargo">Analista Ministerial — Nível Superior</td>
+            <td style="text-align:center">Nível Superior</td>
+            <td>R$ 13.443,69</td>
+            <td>R$ 35.849,86</td>
+            <td style="text-align:center">4 Cl · 7 Ní</td>
+          </tr>
+          <tr>
+            <td class="org">MPE-MT</td>
+            <td class="cargo">Analista Ministerial — Nível Elementar</td>
+            <td style="text-align:center">Nível Fundamental</td>
+            <td>R$ 5.153,46</td>
+            <td>R$ 15.684,32</td>
+            <td style="text-align:center">4 Cl · 7 Ní</td>
+          </tr>
+          <!-- LINHA -->
+          <tr><td colspan="6" style="background:var(--cinza2);height:2px;padding:0"></td></tr>
+          <!-- TCE-MT -->
+          <tr>
+            <td class="org">TCE-MT</td>
+            <td class="cargo">Técnico de Controle Público Externo</td>
+            <td style="text-align:center">Nível Médio</td>
+            <td>R$ 13.724,77</td>
+            <td>R$ 31.198,11</td>
+            <td style="text-align:center">4 Cl · 6 Ní</td>
+          </tr>
+          <tr>
+            <td class="org">TCE-MT</td>
+            <td class="cargo">Auditor Público Externo</td>
+            <td style="text-align:center">Nível Superior</td>
+            <td>R$ 19.196,56</td>
+            <td>R$ 41.597,47</td>
+            <td style="text-align:center">4 Cl · 6 Ní</td>
+          </tr>
+          <tr>
+            <td class="org">TCE-MT</td>
+            <td class="cargo">Agente de Apoio Técnico</td>
+            <td style="text-align:center">Nível Fundamental</td>
+            <td>R$ 8.921,11</td>
+            <td>R$ 20.278,78</td>
+            <td style="text-align:center">4 Cl · 6 Ní</td>
+          </tr>
+          <!-- LINHA -->
+          <tr><td colspan="6" style="background:var(--cinza2);height:2px;padding:0"></td></tr>
+          <!-- DPE-MT -->
+          <tr>
+            <td class="org">DPE-MT</td>
+            <td class="cargo">Técnico Administrativo</td>
+            <td style="text-align:center">Nível Médio</td>
+            <td>R$ 3.748,74</td>
+            <td>R$ 27.410,36</td>
+            <td style="text-align:center">6 Cl · 10 Ní</td>
+          </tr>
+          <tr>
+            <td class="org">DPE-MT</td>
+            <td class="cargo">Analista</td>
+            <td style="text-align:center">Nível Superior</td>
+            <td>R$ 8.051,57</td>
+            <td>R$ 34.467,62</td>
+            <td style="text-align:center">6 Cl · 10 Ní</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">* TCE-MT: Auxiliar de Controle Externo descartado da comparação (cargo em extinção).</p>
+
+    <!-- TABELAS COMPLETAS POR ÓRGÃO -->
+    <div class="sub-titulo">Tabelas Completas por Órgão</div>
+    <div class="orgaos-grid">
+      <div class="orgao-card" onclick="abrirModal('modal-almt')">
+        <div class="oc-sigla">ALMT</div>
+        <div class="oc-nome">Assembleia Legislativa de Mato Grosso</div>
+        <div class="oc-btn">Ver tabela completa ↗</div>
+      </div>
+      <div class="orgao-card" onclick="abrirModal('modal-mpe')">
+        <div class="oc-sigla">MPE-MT</div>
+        <div class="oc-nome">Ministério Público Estadual · Lei 13.220 · jan/2026</div>
+        <div class="oc-btn">Ver tabela completa ↗</div>
+      </div>
+      <div class="orgao-card" onclick="abrirModal('modal-tce')">
+        <div class="oc-sigla">TCE-MT</div>
+        <div class="oc-nome">Tribunal de Contas de Mato Grosso · 2025/2026</div>
+        <div class="oc-btn">Ver tabela completa ↗</div>
+      </div>
+      <div class="orgao-card" onclick="abrirModal('modal-dpe')">
+        <div class="oc-sigla">DPE-MT</div>
+        <div class="oc-nome">Defensoria Pública de Mato Grosso · vigência jan/2026</div>
+        <div class="oc-btn">Ver tabela completa ↗</div>
+      </div>
+    </div>
+
+    <!-- ANÁLISE COMPARATIVA NÍVEL MÉDIO -->
+    <div class="sub-titulo">Como a ALMT se posiciona no Nível Médio</div>
+
+    <div class="piso-teto-grid">
+      <div>
+        <div class="piso-teto-titulo">Piso — Classe A · Nível 1 (Ingresso)</div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span><b>ALMT</b> — Técnico Médio</span><span>R$ 4.803</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:25%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>DPE-MT — Técnico Adm.</span><span>R$ 3.749</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:20%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>MPE-MT — Nível Médio</span><span>R$ 6.722</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:35%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>TCE-MT — Técnico Controle</span><span>R$ 13.725</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verde" style="width:72%"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="piso-teto-titulo">Teto — Última Classe · Nível Máximo</div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span><b>ALMT</b> — Técnico Médio (Cl.D · N10)</span><span>R$ 14.134</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:41%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>DPE-MT — Técnico Adm. (Cl.F · N-X)</span><span>R$ 27.410</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:79%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>MPE-MT — Nível Médio (Cl.D · N-VII)</span><span>R$ 19.045</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:55%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>TCE-MT — Técnico Controle (Cl.D · N6)</span><span>R$ 31.198</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verde" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:4px">O TCE-MT opera em outra categoria de vencimentos devido à natureza do órgão de controle externo. O MPE-MT é o comparativo mais adequado para a ALMT. A DPE-MT possui 6 classes (A–F) — o teto exibido refere-se à Classe F, N-X.</p>
+
+    <!-- ANÁLISE COMPARATIVA NÍVEL SUPERIOR -->
+    <div class="sub-titulo">Como a ALMT se posiciona no Nível Superior (Analista)</div>
+
+    <div class="piso-teto-grid">
+      <div>
+        <div class="piso-teto-titulo">Piso — Classe A · Nível 1 (Ingresso)</div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span><b>ALMT</b> — Analista</span><span>R$ 8.990</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:22%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>DPE-MT — Analista</span><span>R$ 8.052</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:19%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>MPE-MT — Nível Superior</span><span>R$ 13.444</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:33%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>TCE-MT — Auditor</span><span>R$ 19.197</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verde" style="width:47%"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="piso-teto-titulo">Teto — Última Classe · Nível Máximo</div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span><b>ALMT</b> — Analista (Cl.D · N10)</span><span>R$ 24.745</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verm" style="width:53%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>DPE-MT — Analista (Cl.F · N-X)</span><span>R$ 34.468</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:74%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>MPE-MT — Nível Superior (Cl.D · N-VII)</span><span>R$ 35.850</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill azul" style="width:77%"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>TCE-MT — Auditor (Cl.D · N6)</span><span>R$ 41.597</span></div>
+          <div class="barra-bg" style="height:18px"><div class="barra-fill verde" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:4px">A DPE-MT possui 6 classes (A–F) — o teto exibido refere-se à Classe F, N-X.</p>
+
+    <!-- CONCLUSÃO -->
+    <div class="sub-titulo">Conclusão do Benchmarking</div>
+
+    <div class="alerta-box">
+      <h4>🔴 ALMT está abaixo do MPE-MT no Nível Médio em 40%</h4>
+      <p>O piso do Técnico ALMT (R$ 4.803) está 40% abaixo do piso equivalente no MPE-MT (R$ 6.722), o órgão mais comparável em estrutura e porte no Estado. Isso impacta diretamente a capacidade de atração de novos servidores.</p>
+    </div>
+    <div class="alerta-box">
+      <h4>🔴 Analista ALMT com piso 33% abaixo do MPE-MT</h4>
+      <p>O Analista ALMT inicia em R$ 8.990, enquanto o equivalente no MPE-MT parte de R$ 13.444 — uma diferença de 49,5% a favor do MPE-MT logo no ingresso na carreira.</p>
+    </div>
+
+  </div><!-- /secao-outros -->
+
+
+  <!-- ╔══════════════════════════════════╗
+       ║    SEÇÃO 3 – NOVO PCCS          ║
+       ╚══════════════════════════════════╝ -->
+  <div id="secao-novo" class="secao">
+
+    <div class="secao-titulo">Novo PCCS — Proposta 2027 a 2030</div>
+
+    <!-- KPIs de impacto -->
+    <div class="kpi-grid">
+      <div class="kpi positivo">
+        <div class="label">Piso Técnico Médio 2030</div>
+        <div class="valor">R$ 9.411</div>
+        <div class="sub">+95,9% vs 2026 (R$ 4.803)</div>
+      </div>
+      <div class="kpi positivo">
+        <div class="label">Teto Técnico Médio 2030</div>
+        <div class="valor">R$ 25.130</div>
+        <div class="sub">+77,8% vs 2026 (R$ 14.134)</div>
+      </div>
+      <div class="kpi positivo">
+        <div class="label">Piso Analista 2030</div>
+        <div class="valor">R$ 13.444</div>
+        <div class="sub">+49,5% vs 2026</div>
+      </div>
+      <div class="kpi positivo">
+        <div class="label">Teto Analista 2030</div>
+        <div class="valor">R$ 35.900</div>
+        <div class="sub">+45,1% vs 2026 (R$ 24.745)</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Nova Classe E</div>
+        <div class="valor">✔ Criada</div>
+        <div class="sub">Todos os cargos passam a 5 classes</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Técnico como % do Analista</div>
+        <div class="valor">70,0%</div>
+        <div class="sub">Fixo em todos os níveis e classes</div>
+      </div>
+    </div>
+
+    <!-- MELHORIAS -->
+    <div class="sub-titulo">O que muda com a proposta</div>
+
+    <div class="melhorias-grid">
+      <div class="melhoria-card destaque">
+        <h4>🏆 Técnico ganha 70% do Analista — em toda a carreira</h4>
+        <div class="stat">70%</div>
+        <p>Hoje o Técnico ganha entre <strong>46% e 57%</strong> do Analista. Com a proposta, <strong>a proporção se torna 70% de forma uniforme e permanente</strong>, do N1 ao N10, da Classe A à E. O fosso crescente é definitivamente eliminado.</p>
+      </div>
+      <div class="melhoria-card">
+        <h4>📈 Quase dobra o piso do Técnico Médio</h4>
+        <div class="stat">+95,9%</div>
+        <p>O piso do Técnico Médio passa de R$ 4.803 para <strong>R$ 9.411</strong> em 2030 — um incremento de quase 100%, reposicionando a ALMT acima do piso equivalente do MPE-MT.</p>
+      </div>
+      <div class="melhoria-card">
+        <h4>📈 Analista com reajuste de +49,5%</h4>
+        <div class="stat">+49,5%</div>
+        <p>O piso do Analista passa de R$ 8.990 para <strong>R$ 13.444</strong>, tornando a carreira competitiva frente ao mercado estadual de referência e atraindo profissionais qualificados de nível superior.</p>
+      </div>
+      <div class="melhoria-card">
+        <h4>🆕 Criação da Classe E</h4>
+        <div class="stat">5 Classes</div>
+        <p>Todos os cargos passam de 4 para <strong>5 classes (A a E)</strong> a partir de 2027, ampliando o horizonte de progressão e oferecendo perspectiva de longo prazo para servidores experientes.</p>
+      </div>
+      <div class="melhoria-card">
+        <h4>📅 Implementação gradual e segura</h4>
+        <div class="stat">4 anos</div>
+        <p>A implantação ocorre em 4 etapas anuais (2027, 2028, 2029 e 2030), garantindo previsibilidade orçamentária e facilitando o planejamento financeiro da Casa.</p>
+      </div>
+      <div class="melhoria-card">
+        <h4>⚖ Equidade entre partes iguais</h4>
+        <div class="stat">–60,3 pp</div>
+        <p>O gap médio entre Analista e Técnico cai de <strong>+103,2%</strong> para <strong>+42,9%</strong> — uma redução de 60 pontos percentuais. A proporção de 70% é justa, sustentável e amplamente aceita em benchmarks do setor público.</p>
+      </div>
+    </div>
+
+    <!-- SELETOR DE ANO -->
+    <div class="sub-titulo">Tabelas por Ano de Vigência — Técnico de Nível Médio e Analista</div>
+    <div class="ano-tabs">
+      <button onclick="mostrarAno('2027',this)">2027</button>
+      <button onclick="mostrarAno('2028',this)">2028</button>
+      <button onclick="mostrarAno('2029',this)">2029</button>
+      <button class="active" onclick="mostrarAno('2030',this)">2030 ✦</button>
+    </div>
+
+    <!-- ═══ ANO 2027 ═══ -->
+    <div id="ano-2027" class="ano-painel">
+      <div class="td-grid">
+        <div class="td-tabela">
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin-bottom:8px">TÉCNICO MÉDIO — 2027 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 5.481,67</td><td>R$ 6.288,73</td><td>R$ 7.214,75</td><td>R$ 9.329,79</td><td><b>R$ 10.617,30</b></td></tr>
+              <tr><td>2</td><td>R$ 5.714,56</td><td>R$ 6.555,83</td><td>R$ 7.521,13</td><td>R$ 9.879,20</td><td><b>R$ 11.242,53</b></td></tr>
+              <tr><td>3</td><td>R$ 5.955,01</td><td>R$ 6.831,87</td><td>R$ 7.837,73</td><td>R$ 10.458,13</td><td><b>R$ 11.901,35</b></td></tr>
+              <tr><td>4</td><td>R$ 6.203,65</td><td>R$ 7.116,95</td><td>R$ 8.164,97</td><td>R$ 11.067,77</td><td><b>R$ 12.595,12</b></td></tr>
+              <tr><td>5</td><td>R$ 6.460,67</td><td>R$ 7.411,73</td><td>R$ 8.501,57</td><td>R$ 11.710,30</td><td><b>R$ 13.326,32</b></td></tr>
+              <tr><td>6</td><td>R$ 6.726,39</td><td>R$ 7.716,57</td><td>R$ 8.852,61</td><td>R$ 12.387,27</td><td><b>R$ 14.096,71</b></td></tr>
+              <tr><td>7</td><td>R$ 7.000,98</td><td>R$ 8.031,62</td><td>R$ 9.214,29</td><td>R$ 13.100,49</td><td><b>R$ 14.908,36</b></td></tr>
+              <tr><td>8</td><td>R$ 7.284,96</td><td>R$ 8.357,47</td><td>R$ 9.588,05</td><td>R$ 13.852,12</td><td><b>R$ 15.763,71</b></td></tr>
+              <tr><td>9</td><td>R$ 7.578,64</td><td>R$ 8.694,38</td><td>R$ 9.974,53</td><td>R$ 14.644,32</td><td><b>R$ 16.665,24</b></td></tr>
+              <tr><td>10</td><td>R$ 7.882,44</td><td>R$ 9.042,74</td><td>R$ 10.374,46</td><td>R$ 15.479,28</td><td><b>R$ 17.615,42</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 5.481,67 (Cl.A·N1) +14,1% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 17.615,42 (Cl.E·N10) +24,6% vs 2026</td></tr></tfoot>
+          </table>
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin:16px 0 8px">ANALISTA — 2027 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 10.103,56</td><td>R$ 11.915,78</td><td>R$ 14.062,06</td><td>R$ 16.604,36</td><td><b>R$ 18.213,27</b></td></tr>
+              <tr><td>2</td><td>R$ 10.653,12</td><td>R$ 12.565,45</td><td>R$ 14.829,80</td><td>R$ 17.512,38</td><td><b>R$ 19.211,29</b></td></tr>
+              <tr><td>3</td><td>R$ 11.229,48</td><td>R$ 13.245,51</td><td>R$ 15.633,46</td><td>R$ 18.462,60</td><td><b>R$ 20.254,37</b></td></tr>
+              <tr><td>4</td><td>R$ 11.832,24</td><td>R$ 13.956,71</td><td>R$ 16.474,57</td><td>R$ 19.457,59</td><td><b>R$ 21.345,48</b></td></tr>
+              <tr><td>5</td><td>R$ 12.463,10</td><td>R$ 14.700,69</td><td>R$ 17.354,73</td><td>R$ 20.500,42</td><td><b>R$ 22.487,56</b></td></tr>
+              <tr><td>6</td><td>R$ 13.124,30</td><td>R$ 15.479,27</td><td>R$ 18.275,88</td><td>R$ 21.594,42</td><td><b>R$ 23.683,62</b></td></tr>
+              <tr><td>7</td><td>R$ 13.817,64</td><td>R$ 16.293,73</td><td>R$ 19.240,56</td><td>R$ 22.743,69</td><td><b>R$ 24.936,72</b></td></tr>
+              <tr><td>8</td><td>R$ 14.545,43</td><td>R$ 17.145,62</td><td>R$ 20.251,77</td><td>R$ 23.952,59</td><td><b>R$ 26.250,97</b></td></tr>
+              <tr><td>9</td><td>R$ 15.309,60</td><td>R$ 18.036,84</td><td>R$ 21.312,38</td><td>R$ 25.224,61</td><td><b>R$ 27.629,57</b></td></tr>
+              <tr><td>10</td><td>R$ 16.112,61</td><td>R$ 18.969,70</td><td>R$ 22.425,43</td><td>R$ 26.564,35</td><td><b>R$ 29.358,79</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 10.103,56 (Cl.A·N1) +12,4% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 29.358,79 (Cl.E·N10) +18,6% vs 2026</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="td-diag">
+          <div class="diag-titulo">Diagnóstico — 2027 (1º ano)</div>
+          <div class="sucesso-box"><h4>✅ Criação da Classe E</h4><p>Todos os cargos ganham a Classe E em 2027, ampliando o horizonte de progressão de 4 para 5 classes.</p></div>
+          <div class="sucesso-box"><h4>✅ Técnico Médio: +14,1% no piso</h4><p>Primeiro reajuste consistente. O piso sobe de R$ 4.803 para R$ 5.482 — início da recuperação da defasagem histórica.</p></div>
+          <div class="sucesso-box"><h4>✅ Analista: +12,4% no piso</h4><p>O piso do Analista sobe de R$ 8.990 para R$ 10.104 — a carreira começa a se aproximar da referência do MPE-MT.</p></div>
+          <div class="info-box"><h4>ℹ Relação Técnico / Analista em 2027</h4><p>Técnico E·N10: R$ 17.615 / Analista E·N10: R$ 29.359 = <strong>60,0%</strong>. O caminho para 70% está em andamento.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ANO 2028 ═══ -->
+    <div id="ano-2028" class="ano-painel">
+      <div class="td-grid">
+        <div class="td-tabela">
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin-bottom:8px">TÉCNICO MÉDIO — 2028 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 6.673,19</td><td>R$ 7.635,14</td><td>R$ 8.736,01</td><td>R$ 10.850,06</td><td><b>R$ 12.347,37</b></td></tr>
+              <tr><td>2</td><td>R$ 6.978,15</td><td>R$ 7.984,00</td><td>R$ 9.135,12</td><td>R$ 11.470,48</td><td><b>R$ 13.053,40</b></td></tr>
+              <tr><td>3</td><td>R$ 7.295,51</td><td>R$ 8.347,26</td><td>R$ 9.550,69</td><td>R$ 12.125,47</td><td><b>R$ 13.798,79</b></td></tr>
+              <tr><td>4</td><td>R$ 7.626,07</td><td>R$ 8.725,34</td><td>R$ 9.983,43</td><td>R$ 12.816,64</td><td><b>R$ 14.585,34</b></td></tr>
+              <tr><td>5</td><td>R$ 7.970,33</td><td>R$ 9.119,16</td><td>R$ 10.432,73</td><td>R$ 13.546,54</td><td><b>R$ 15.415,97</b></td></tr>
+              <tr><td>6</td><td>R$ 8.328,91</td><td>R$ 9.529,43</td><td>R$ 10.903,23</td><td>R$ 14.317,25</td><td><b>R$ 16.293,03</b></td></tr>
+              <tr><td>7</td><td>R$ 8.702,35</td><td>R$ 9.956,73</td><td>R$ 11.392,33</td><td>R$ 15.131,16</td><td><b>R$ 17.219,26</b></td></tr>
+              <tr><td>8</td><td>R$ 9.091,43</td><td>R$ 10.401,95</td><td>R$ 11.901,69</td><td>R$ 15.990,92</td><td><b>R$ 18.197,66</b></td></tr>
+              <tr><td>9</td><td>R$ 9.496,84</td><td>R$ 10.865,79</td><td>R$ 12.432,37</td><td>R$ 16.899,28</td><td><b>R$ 19.231,38</b></td></tr>
+              <tr><td>10</td><td>R$ 9.919,33</td><td>R$ 11.349,05</td><td>R$ 12.985,53</td><td>R$ 17.859,09</td><td><b>R$ 20.323,64</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 6.673,19 (Cl.A·N1) +38,9% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 20.323,64 (Cl.E·N10) +43,8% vs 2026</td></tr></tfoot>
+          </table>
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin:16px 0 8px">ANALISTA — 2028 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 11.216,94</td><td>R$ 13.043,36</td><td>R$ 15.236,38</td><td>R$ 17.673,69</td><td><b>R$ 19.546,37</b></td></tr>
+              <tr><td>2</td><td>R$ 11.807,71</td><td>R$ 13.731,45</td><td>R$ 16.000,28</td><td>R$ 18.609,58</td><td><b>R$ 20.542,54</b></td></tr>
+              <tr><td>3</td><td>R$ 12.426,87</td><td>R$ 14.452,55</td><td>R$ 16.820,73</td><td>R$ 19.589,80</td><td><b>R$ 21.606,42</b></td></tr>
+              <tr><td>4</td><td>R$ 13.075,74</td><td>R$ 15.208,95</td><td>R$ 17.701,36</td><td>R$ 20.616,86</td><td><b>R$ 22.723,12</b></td></tr>
+              <tr><td>5</td><td>R$ 13.755,70</td><td>R$ 16.003,26</td><td>R$ 18.623,92</td><td>R$ 21.693,18</td><td><b>R$ 23.891,71</b></td></tr>
+              <tr><td>6</td><td>R$ 14.468,18</td><td>R$ 16.836,40</td><td>R$ 19.590,80</td><td>R$ 22.821,71</td><td><b>R$ 25.113,00</b></td></tr>
+              <tr><td>7</td><td>R$ 15.214,70</td><td>R$ 17.709,16</td><td>R$ 20.604,10</td><td>R$ 24.005,70</td><td><b>R$ 26.387,19</b></td></tr>
+              <tr><td>8</td><td>R$ 15.996,83</td><td>R$ 18.622,78</td><td>R$ 21.666,60</td><td>R$ 25.248,03</td><td><b>R$ 27.714,85</b></td></tr>
+              <tr><td>9</td><td>R$ 16.816,21</td><td>R$ 19.579,71</td><td>R$ 22.781,00</td><td>R$ 26.551,66</td><td><b>R$ 29.096,15</b></td></tr>
+              <tr><td>10</td><td>R$ 17.674,59</td><td>R$ 20.582,04</td><td>R$ 23.950,07</td><td>R$ 27.919,56</td><td><b>R$ 30.531,40</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 11.216,94 (Cl.A·N1) +24,8% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 30.531,40 (Cl.E·N10) +23,4% vs 2026</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="td-diag">
+          <div class="diag-titulo">Diagnóstico — 2028 (2º ano)</div>
+          <div class="sucesso-box"><h4>✅ Técnico Médio ultrapassa o piso MPE-MT</h4><p>Em 2028, o piso do Técnico (R$ 6.673) supera o piso equivalente do MPE-MT (R$ 6.722) — marco histórico de competitividade.</p></div>
+          <div class="sucesso-box"><h4>✅ Técnico Médio: +38,9% no piso acumulado</h4><p>Crescimento acelerado: o piso quase chega a 40% de reajuste sobre 2026 em apenas 2 anos.</p></div>
+          <div class="sucesso-box"><h4>✅ Analista: +24,8% no piso acumulado</h4><p>O piso do Analista atinge R$ 11.217, já se aproximando dos R$ 13.444 que serão atingidos em 2030.</p></div>
+          <div class="info-box"><h4>ℹ Relação Técnico / Analista em 2028</h4><p>Técnico E·N10: R$ 20.324 / Analista E·N10: R$ 30.531 = <strong>66,5%</strong>. A convergência para 70% está avançando.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ANO 2029 ═══ -->
+    <div id="ano-2029" class="ano-painel">
+      <div class="td-grid">
+        <div class="td-tabela">
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin-bottom:8px">TÉCNICO MÉDIO — 2029 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 7.995,49</td><td>R$ 9.123,46</td><td>R$ 10.410,78</td><td>R$ 12.391,72</td><td><b>R$ 14.101,77</b></td></tr>
+              <tr><td>2</td><td>R$ 8.380,42</td><td>R$ 9.562,66</td><td>R$ 10.911,93</td><td>R$ 13.063,12</td><td><b>R$ 14.865,83</b></td></tr>
+              <tr><td>3</td><td>R$ 8.783,13</td><td>R$ 10.022,28</td><td>R$ 11.436,36</td><td>R$ 13.771,10</td><td><b>R$ 15.671,52</b></td></tr>
+              <tr><td>4</td><td>R$ 9.204,60</td><td>R$ 10.503,13</td><td>R$ 11.985,14</td><td>R$ 14.517,48</td><td><b>R$ 16.520,90</b></td></tr>
+              <tr><td>5</td><td>R$ 9.645,69</td><td>R$ 11.006,40</td><td>R$ 12.558,63</td><td>R$ 15.304,72</td><td><b>R$ 17.416,78</b></td></tr>
+              <tr><td>6</td><td>R$ 10.107,32</td><td>R$ 11.533,15</td><td>R$ 13.160,37</td><td>R$ 16.135,04</td><td><b>R$ 18.361,67</b></td></tr>
+              <tr><td>7</td><td>R$ 10.590,46</td><td>R$ 12.084,47</td><td>R$ 13.789,59</td><td>R$ 17.010,94</td><td><b>R$ 19.358,45</b></td></tr>
+              <tr><td>8</td><td>R$ 11.096,19</td><td>R$ 12.661,58</td><td>R$ 14.448,09</td><td>R$ 17.935,10</td><td><b>R$ 20.410,14</b></td></tr>
+              <tr><td>9</td><td>R$ 11.625,58</td><td>R$ 13.265,64</td><td>R$ 15.137,38</td><td>R$ 18.910,30</td><td><b>R$ 21.519,93</b></td></tr>
+              <tr><td>10</td><td>R$ 12.179,79</td><td>R$ 13.897,96</td><td>R$ 15.859,05</td><td>R$ 19.939,49</td><td><b>R$ 22.691,14</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 7.995,49 (Cl.A·N1) +66,5% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 22.691,14 (Cl.E·N10) +60,5% vs 2026</td></tr></tfoot>
+          </table>
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin:16px 0 8px">ANALISTA — 2029 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>R$ 12.330,31</td><td>R$ 14.170,93</td><td>R$ 16.323,54</td><td>R$ 18.743,02</td><td><b>R$ 21.046,42</b></td></tr>
+              <tr><td>2</td><td>R$ 12.961,79</td><td>R$ 14.897,45</td><td>R$ 17.140,75</td><td>R$ 19.706,78</td><td><b>R$ 22.108,16</b></td></tr>
+              <tr><td>3</td><td>R$ 13.625,16</td><td>R$ 15.658,58</td><td>R$ 18.008,00</td><td>R$ 20.716,99</td><td><b>R$ 23.231,95</b></td></tr>
+              <tr><td>4</td><td>R$ 14.322,24</td><td>R$ 16.456,19</td><td>R$ 18.928,14</td><td>R$ 21.776,12</td><td><b>R$ 24.412,94</b></td></tr>
+              <tr><td>5</td><td>R$ 15.054,93</td><td>R$ 17.292,03</td><td>R$ 19.902,11</td><td>R$ 22.883,45</td><td><b>R$ 25.648,78</b></td></tr>
+              <tr><td>6</td><td>R$ 15.824,26</td><td>R$ 18.168,40</td><td>R$ 20.931,55</td><td>R$ 24.040,00</td><td><b>R$ 26.944,93</b></td></tr>
+              <tr><td>7</td><td>R$ 16.631,53</td><td>R$ 19.087,74</td><td>R$ 22.018,16</td><td>R$ 25.247,19</td><td><b>R$ 28.301,42</b></td></tr>
+              <tr><td>8</td><td>R$ 17.478,50</td><td>R$ 20.052,91</td><td>R$ 23.163,78</td><td>R$ 26.505,47</td><td><b>R$ 29.720,63</b></td></tr>
+              <tr><td>9</td><td>R$ 18.366,21</td><td>R$ 21.066,38</td><td>R$ 24.370,18</td><td>R$ 27.816,06</td><td><b>R$ 31.204,44</b></td></tr>
+              <tr><td>10</td><td>R$ 19.295,59</td><td>R$ 22.131,89</td><td>R$ 25.639,70</td><td>R$ 29.180,74</td><td><b>R$ 32.743,23</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 12.330,31 (Cl.A·N1) +37,2% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 32.743,23 (Cl.E·N10) +32,3% vs 2026</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="td-diag">
+          <div class="diag-titulo">Diagnóstico — 2029 (3º ano)</div>
+          <div class="sucesso-box"><h4>✅ Técnico Médio: +66,5% acumulado no piso</h4><p>O piso do Técnico atinge R$ 7.995 — já supera com folga o equivalente do MPE-MT. A liderança no mercado estadual está consolidada.</p></div>
+          <div class="sucesso-box"><h4>✅ Analista: R$ 12.330 no piso — a apenas R$ 1.113 da meta 2030</h4><p>O piso do Analista atinge R$ 12.330, a apenas R$ 1.113 dos R$ 13.444 previstos para 2030.</p></div>
+          <div class="info-box"><h4>ℹ Relação Técnico / Analista em 2029</h4><p>Técnico E·N10: R$ 22.691 / Analista E·N10: R$ 32.743 = <strong>69,3%</strong>. A meta de 70% está praticamente alcançada.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ANO 2030 ═══ -->
+    <div id="ano-2030" class="ano-painel ativo">
+      <div class="td-grid">
+        <div class="td-tabela">
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin-bottom:8px">TÉCNICO MÉDIO — 2030 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td> <td>R$ 9.410,58</td><td>R$ 10.709,24</td><td>R$ 12.187,12</td><td>R$ 13.868,94</td><td><b>R$ 15.782,85</b></td></tr>
+              <tr><td>2</td> <td>R$ 9.881,11</td><td>R$ 11.244,70</td><td>R$ 12.796,47</td><td>R$ 14.562,39</td><td><b>R$ 16.571,99</b></td></tr>
+              <tr><td>3</td> <td>R$ 10.375,16</td><td>R$ 11.806,93</td><td>R$ 13.436,29</td><td>R$ 15.290,50</td><td><b>R$ 17.400,59</b></td></tr>
+              <tr><td>4</td> <td>R$ 10.893,92</td><td>R$ 12.397,28</td><td>R$ 14.108,11</td><td>R$ 16.055,02</td><td><b>R$ 18.270,62</b></td></tr>
+              <tr><td>5</td> <td>R$ 11.438,62</td><td>R$ 13.017,15</td><td>R$ 14.813,52</td><td>R$ 16.857,78</td><td><b>R$ 19.184,16</b></td></tr>
+              <tr><td>6</td> <td>R$ 12.010,54</td><td>R$ 13.667,99</td><td>R$ 15.554,18</td><td>R$ 17.700,65</td><td><b>R$ 20.143,34</b></td></tr>
+              <tr><td>7</td> <td>R$ 12.611,07</td><td>R$ 14.351,40</td><td>R$ 16.331,89</td><td>R$ 18.585,69</td><td><b>R$ 21.150,52</b></td></tr>
+              <tr><td>8</td> <td>R$ 13.241,63</td><td>R$ 15.068,97</td><td>R$ 17.148,49</td><td>R$ 19.514,99</td><td><b>R$ 22.208,05</b></td></tr>
+              <tr><td>9</td> <td>R$ 13.903,71</td><td>R$ 15.822,42</td><td>R$ 18.005,92</td><td>R$ 20.490,73</td><td><b>R$ 23.318,45</b></td></tr>
+              <tr><td>10</td><td>R$ 14.598,89</td><td>R$ 16.613,54</td><td>R$ 18.906,20</td><td>R$ 21.515,26</td><td><b>R$ 25.130,00</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 9.410,58 (Cl.A·N1) — +95,9% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 25.130,00 (Cl.E·N10) — +77,8% vs 2026</td></tr></tfoot>
+          </table>
+          <p style="font-size:12px;font-weight:700;color:var(--verde2);margin:16px 0 8px">ANALISTA — 2030 (5 classes)</p>
+          <table class="destaque-novo">
+            <thead><tr><th style="text-align:center">Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe" style="background:#1c5633!important">E ✦</th></tr></thead>
+            <tbody>
+              <tr><td>1</td> <td>R$ 13.443,69</td><td>R$ 15.298,51</td><td>R$ 17.410,69</td><td>R$ 19.812,36</td><td><b>R$ 22.546,46</b></td></tr>
+              <tr><td>2</td> <td>R$ 14.115,87</td><td>R$ 16.063,44</td><td>R$ 18.281,22</td><td>R$ 20.803,98</td><td><b>R$ 23.673,78</b></td></tr>
+              <tr><td>3</td> <td>R$ 14.821,66</td><td>R$ 16.866,61</td><td>R$ 19.195,28</td><td>R$ 21.844,18</td><td><b>R$ 24.857,47</b></td></tr>
+              <tr><td>4</td> <td>R$ 15.562,74</td><td>R$ 17.709,42</td><td>R$ 20.154,92</td><td>R$ 22.936,39</td><td><b>R$ 26.100,76</b></td></tr>
+              <tr><td>5</td> <td>R$ 16.340,88</td><td>R$ 18.594,90</td><td>R$ 21.162,30</td><td>R$ 24.083,71</td><td><b>R$ 27.405,85</b></td></tr>
+              <tr><td>6</td> <td>R$ 17.157,92</td><td>R$ 19.524,67</td><td>R$ 22.220,63</td><td>R$ 25.288,27</td><td><b>R$ 28.776,85</b></td></tr>
+              <tr><td>7</td> <td>R$ 18.015,82</td><td>R$ 20.500,00</td><td>R$ 23.331,66</td><td>R$ 26.552,73</td><td><b>R$ 30.215,65</b></td></tr>
+              <tr><td>8</td> <td>R$ 18.916,61</td><td>R$ 21.525,10</td><td>R$ 24.498,24</td><td>R$ 27.880,92</td><td><b>R$ 31.726,40</b></td></tr>
+              <tr><td>9</td> <td>R$ 19.862,44</td><td>R$ 22.601,45</td><td>R$ 25.723,16</td><td>R$ 29.274,77</td><td><b>R$ 33.312,72</b></td></tr>
+              <tr><td>10</td><td>R$ 20.855,56</td><td>R$ 23.731,73</td><td>R$ 27.009,33</td><td>R$ 30.738,92</td><td><b>R$ 35.900,00</b></td></tr>
+            </tbody>
+            <tfoot><tr><td>Piso</td><td colspan="5" style="text-align:left">R$ 13.443,69 (Cl.A·N1) — +49,5% vs 2026</td></tr><tr><td>Teto</td><td colspan="5" style="text-align:left">R$ 35.900,00 (Cl.E·N10) — +45,1% vs 2026</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="td-diag">
+          <div class="diag-titulo">Diagnóstico — 2030 (ano final ✦)</div>
+          <div class="sucesso-box"><h4>🏆 Meta atingida: Técnico = 70% do Analista</h4><p>Em todos os níveis e classes, o Técnico representa exatamente <strong>70%</strong> do salário do Analista — de forma uniforme e permanente. O fosso crescente é eliminado definitivamente.</p></div>
+          <div class="sucesso-box"><h4>✅ Piso Analista atinge R$ 13.444 em 2030</h4><p>Meta alcançada: o piso do Analista chega a R$ 13.443,69, reposicionando a ALMT de forma competitiva no mercado estadual.</p></div>
+          <div class="sucesso-box"><h4>✅ Técnico Médio quase dobra o piso</h4><p>De R$ 4.803 para R$ 9.411 — reajuste de <strong>+95,9%</strong>. A maior valorização já registrada no PCCS da ALMT.</p></div>
+          <div class="info-box"><h4>ℹ Verificação: relação 70% em todo lugar</h4><p>E·N10: R$ 25.130 / R$ 35.900 = <b>70,0%</b><br>A·N1: R$ 9.411 / R$ 13.444 = <b>70,0%</b><br>C·N5: R$ 14.814 / R$ 21.162 = <b>70,0%</b></p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISPARIDADE PROPOSTA -->
+    <div class="sub-titulo">Disparidade Técnico × Analista: Antes e Depois</div>
+
+    <div class="disp-grid">
+      <div class="disp-card antes">
+        <h4>⚠ Hoje (2026) — Situação precária</h4>
+        <div class="disp-num ruim"><em>46%</em><span class="unit"> a </span><em>57%</em><div class="desc">Técnico como proporção do Analista<br>varia e <u>cai</u> ao longo da carreira</div></div>
+        <div style="margin-top:14px;font-size:13px;color:#4a5568">
+          <div>• N1 Cl.A: <b>53,4%</b></div>
+          <div>• N5 Cl.A: <b>49,9%</b></div>
+          <div>• N10 Cl.A: <b>45,8%</b></div>
+          <div style="margin-top:8px;color:#c53030">Gap médio geral: <b>+103,2%</b> — Analista ganha mais que o dobro do Técnico</div>
+        </div>
+      </div>
+      <div class="disp-card depois">
+        <h4>✅ Proposta 2030 — Equidade garantida</h4>
+        <div class="disp-num bom"><em>70%</em><div class="desc">Técnico como proporção do Analista<br>fixo em <u>todos</u> os níveis e classes</div></div>
+        <div style="margin-top:14px;font-size:13px;color:#4a5568">
+          <div>• N1 a N10: <b>70,0%</b></div>
+          <div>• Cl.A a Cl.E: <b>70,0%</b></div>
+          <div>• Ex.: E-N10: R$ 25.130 / R$ 35.900 = <b>70,0%</b></div>
+          <div style="margin-top:8px;color:#276749">Gap: <b>+42,9%</b> — estável, justo e previsível para todos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVOLUÇÃO ANO A ANO -->
+    <div class="sub-titulo">Evolução Gradual 2026–2030 — Técnico de Nível Médio (Piso e Teto)</div>
+    <div class="tabela-wrap">
+      <table class="tabela-evolucao">
+        <thead>
+          <tr>
+            <th>Ano</th>
+            <th>Piso (Cl.A · N1)</th>
+            <th>Reajuste Piso</th>
+            <th>Teto (Cl.E · N10)</th>
+            <th>Reajuste Teto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff8e1"><td>2026 (base)</td><td>R$ 4.803,46</td><td>—</td><td>R$ 14.133,93</td><td>—</td></tr>
+          <tr><td>2027</td><td>R$ 5.481,67</td><td style="color:#276749">+14,1%</td><td>R$ 17.615,42</td><td style="color:#276749">+24,6%</td></tr>
+          <tr><td>2028</td><td>R$ 6.673,19</td><td style="color:#276749">+38,9%</td><td>R$ 20.323,64</td><td style="color:#276749">+43,8%</td></tr>
+          <tr><td>2029</td><td>R$ 7.995,49</td><td style="color:#276749">+66,5%</td><td>R$ 22.691,14</td><td style="color:#276749">+60,5%</td></tr>
+          <tr style="background:#f0fff4;font-weight:700"><td>2030 ✦</td><td>R$ 9.410,58</td><td style="color:#276749">+95,9%</td><td>R$ 25.130,00</td><td style="color:#276749">+77,8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-titulo">Evolução Gradual 2026–2030 — Analista Legislativo (Piso e Teto)</div>
+    <div class="tabela-wrap">
+      <table class="tabela-evolucao">
+        <thead>
+          <tr>
+            <th>Ano</th>
+            <th>Piso (Cl.A · N1)</th>
+            <th>Reajuste Piso</th>
+            <th>Teto (Cl.E · N10)</th>
+            <th>Reajuste Teto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff8e1"><td>2026 (base)</td><td>R$ 8.990,18</td><td>—</td><td>R$ 24.744,83</td><td>—</td></tr>
+          <tr><td>2027</td><td>R$ 10.103,56</td><td style="color:#276749">+12,4%</td><td>R$ 29.358,79</td><td style="color:#276749">+18,6%</td></tr>
+          <tr><td>2028</td><td>R$ 11.216,94</td><td style="color:#276749">+24,8%</td><td>R$ 30.531,40</td><td style="color:#276749">+23,4%</td></tr>
+          <tr><td>2029</td><td>R$ 12.330,31</td><td style="color:#276749">+37,2%</td><td>R$ 32.743,23</td><td style="color:#276749">+32,3%</td></tr>
+          <tr style="background:#f0fff4;font-weight:700"><td>2030 ✦</td><td>R$ 13.443,69</td><td style="color:#276749">+49,5%</td><td>R$ 35.900,00</td><td style="color:#276749">+45,1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONCLUSÃO / VENDA -->
+    <div class="sub-titulo">Por que aprovar esta proposta?</div>
+
+    <div class="sucesso-box">
+      <h4>✅ Reposiciona a ALMT no mercado estadual</h4>
+      <p>O piso do Analista em 2030 atingirá exatamente o piso do MPE-MT (Lei 13.220), tornando a ALMT competitiva frente ao principal órgão de referência do Estado — sem ultrapassá-lo, de forma responsável.</p>
+    </div>
+    <div class="sucesso-box">
+      <h4>✅ Valoriza o Técnico de forma histórica</h4>
+      <p>Com quase 100% de reajuste no piso (de R$ 4.803 para R$ 9.411), o Técnico Médio recebe a maior valorização já registrada no PCCS da ALMT, reconhecendo décadas de defasagem acumulada.</p>
+    </div>
+    <div class="sucesso-box">
+      <h4>✅ Resolve a distorção estrutural da carreira</h4>
+      <p>A proporção de 70% entre Técnico e Analista, uniforme em toda a tabela, elimina a anomalia em que o servidor é penalizado quanto mais avança. Com a proposta, progredir na carreira passa a ser sempre vantajoso.</p>
+    </div>
+    <div class="sucesso-box">
+      <h4>✅ Implantação gradual — responsabilidade fiscal</h4>
+      <p>A curva de 4 anos distribui o impacto orçamentário de forma previsível e planejada, permitindo ao setor financeiro incorporar os reajustes com segurança e sem impacto concentrado.</p>
+    </div>
+    <div class="sucesso-box">
+      <h4>✅ Nova Classe E — perspectiva real de carreira</h4>
+      <p>A criação da Classe E amplia o horizonte dos servidores mais experientes, reduz a rotatividade e sinaliza que a ALMT investe no desenvolvimento de longo prazo de seus quadros.</p>
+    </div>
+
+    <p class="nota" style="margin-top:24px">
+      ✦ Cenário preferido: MED 70% (Técnico de Nível Médio) + SUP 100% (Analista). Demais cenários disponíveis nos estudos técnicos complementares da SGP/ALMT.
+    </p>
+
+  </div><!-- /secao-novo -->
+
+</div><!-- /conteudo -->
+
+  <!-- ═══════════════════════════════════════════
+       MODAIS — TABELAS COMPLETAS POR ÓRGÃO
+  ═══════════════════════════════════════════ -->
+
+  <!-- ──── MODAL ALMT ──── -->
+  <div id="modal-almt" class="modal-overlay" onclick="fecharModalSe(event,'modal-almt')">
+    <div class="modal-box">
+      <button class="modal-fechar" onclick="fecharModal('modal-almt')">✕</button>
+      <div class="modal-titulo">ALMT — Tabelas Salariais Vigentes (jan/2026)</div>
+      <div class="modal-sub">Assembleia Legislativa de Mato Grosso · 4 Classes (A–D) · 10 Níveis · Vigência jan/2026</div>
+
+      <div class="modal-secao">Técnico Legislativo — Nível Médio</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 4.803,46</td><td>R$ 5.525,45</td><td>R$ 6.355,90</td><td>R$ 8.540,89</td></tr>
+            <tr><td>2</td><td>R$ 4.990,13</td><td>R$ 5.740,07</td><td>R$ 6.602,74 *</td><td>R$ 9.051,00</td></tr>
+            <tr><td>3</td><td>R$ 5.180,84</td><td>R$ 5.959,67</td><td>R$ 6.855,24</td><td>R$ 9.586,26</td></tr>
+            <tr><td>4</td><td>R$ 5.376,10</td><td>R$ 6.184,08</td><td>R$ 7.113,63</td><td>R$ 10.147,45</td></tr>
+            <tr><td>5</td><td>R$ 5.575,84</td><td>R$ 6.413,78</td><td>R$ 7.376,00</td><td>R$ 10.736,20</td></tr>
+            <tr><td>6</td><td>R$ 5.780,23</td><td>R$ 6.648,84</td><td>R$ 7.647,90</td><td>R$ 11.353,53</td></tr>
+            <tr><td>7</td><td>R$ 5.989,02</td><td>R$ 6.889,13</td><td>R$ 7.924,58</td><td>R$ 12.000,45</td></tr>
+            <tr><td>8</td><td>R$ 6.202,71</td><td>R$ 7.134,97</td><td>R$ 8.207,28</td><td>R$ 12.678,54</td></tr>
+            <tr><td>9</td><td>R$ 6.421,23</td><td>R$ 7.386,27</td><td>R$ 8.496,34</td><td>R$ 13.389,27</td></tr>
+            <tr><td>10</td><td>R$ 6.644,69</td><td>R$ 7.643,15</td><td>R$ 8.792,13</td><td>R$ 14.133,93</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 4.803,46 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 14.133,93 (Cl.D · N10)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Analista Legislativo</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 8.990,18</td><td>R$ 10.788,21</td><td>R$ 12.945,85</td><td>R$ 15.535,02</td></tr>
+            <tr><td>2</td><td>R$ 9.499,54</td><td>R$ 11.399,45</td><td>R$ 13.679,33</td><td>R$ 16.415,18</td></tr>
+            <tr><td>3</td><td>R$ 10.032,08</td><td>R$ 12.038,48</td><td>R$ 14.446,18</td><td>R$ 17.335,41</td></tr>
+            <tr><td>4</td><td>R$ 10.588,74</td><td>R$ 12.706,48</td><td>R$ 15.247,79</td><td>R$ 18.297,32</td></tr>
+            <tr><td>5</td><td>R$ 11.170,51</td><td>R$ 13.404,62</td><td>R$ 16.085,54</td><td>R$ 19.302,65</td></tr>
+            <tr><td>6</td><td>R$ 11.778,43</td><td>R$ 14.134,13</td><td>R$ 16.960,96</td><td>R$ 20.353,14</td></tr>
+            <tr><td>7</td><td>R$ 12.413,58</td><td>R$ 14.896,31</td><td>R$ 17.875,54</td><td>R$ 21.450,67</td></tr>
+            <tr><td>8</td><td>R$ 13.077,04</td><td>R$ 15.692,46</td><td>R$ 18.830,95</td><td>R$ 22.597,14</td></tr>
+            <tr><td>9</td><td>R$ 13.769,98</td><td>R$ 16.523,98</td><td>R$ 19.828,79</td><td>R$ 23.794,55</td></tr>
+            <tr><td>10</td><td>R$ 14.493,62</td><td>R$ 17.392,35</td><td>R$ 20.870,80</td><td>R$ 24.744,83</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 8.990,18 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 24.744,83 (Cl.D · N10)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Técnico Legislativo — Nível Fundamental (cargo em extinção)</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 4.563,28</td><td>R$ 5.249,16</td><td>R$ 6.038,12</td><td>R$ 8.113,86</td></tr>
+            <tr><td>2</td><td>R$ 4.740,62</td><td>R$ 5.453,07</td><td>R$ 6.272,62</td><td>R$ 8.598,45</td></tr>
+            <tr><td>3</td><td>R$ 4.921,79</td><td>R$ 5.661,68</td><td>R$ 6.512,49</td><td>R$ 9.106,95</td></tr>
+            <tr><td>4</td><td>R$ 5.107,29</td><td>R$ 5.874,88</td><td>R$ 6.757,93</td><td>R$ 9.640,07</td></tr>
+            <tr><td>5</td><td>R$ 5.297,06</td><td>R$ 6.093,09</td><td>R$ 7.007,20</td><td>R$ 10.199,40</td></tr>
+            <tr><td>6</td><td>R$ 5.491,21</td><td>R$ 6.316,41</td><td>R$ 7.265,53</td><td>R$ 10.785,85</td></tr>
+            <tr><td>7</td><td>R$ 5.689,61</td><td>R$ 6.544,67</td><td>R$ 7.528,35</td><td>R$ 11.400,43</td></tr>
+            <tr><td>8</td><td>R$ 5.892,57</td><td>R$ 6.778,21</td><td>R$ 7.796,91</td><td>R$ 12.044,64</td></tr>
+            <tr><td>9</td><td>R$ 6.100,14</td><td>R$ 7.016,96</td><td>R$ 8.071,51</td><td>R$ 12.719,81</td></tr>
+            <tr><td>10</td><td>R$ 6.312,45</td><td>R$ 7.261,01</td><td>R$ 8.352,53</td><td>R$ 13.427,24</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 4.563,28 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 13.427,24 (Cl.D · N10)</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div><!-- /modal-almt -->
+
+  <!-- ──── MODAL MPE-MT ──── -->
+  <div id="modal-mpe" class="modal-overlay" onclick="fecharModalSe(event,'modal-mpe')">
+    <div class="modal-box">
+      <button class="modal-fechar" onclick="fecharModal('modal-mpe')">✕</button>
+      <div class="modal-titulo">MPE-MT — Tabelas Salariais (Lei 13.220 · jan/2026)</div>
+      <div class="modal-sub">Ministério Público Estadual de Mato Grosso · 4 Classes (A–D) · 7 Níveis (I–VII)</div>
+
+      <div class="modal-secao">Nível Superior — Analista Ministerial</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>R$ 13.443,69</td><td>R$ 14.451,98</td><td>R$ 15.236,19</td><td>R$ 15.684,32</td></tr>
+            <tr><td>II</td><td>R$ 16.356,49</td><td>R$ 17.476,82</td><td>R$ 18.597,13</td><td>R$ 19.269,28</td></tr>
+            <tr><td>III</td><td>R$ 19.717,42</td><td>R$ 21.061,79</td><td>R$ 22.182,10</td><td>R$ 23.526,46</td></tr>
+            <tr><td>IV</td><td>R$ 23.974,61</td><td>R$ 27.111,45</td><td>R$ 29.576,14</td><td>R$ 31.368,61</td></tr>
+            <tr><td>V</td><td>R$ 25.094,91</td><td>R$ 27.783,66</td><td>R$ 30.696,43</td><td>R$ 32.712,99</td></tr>
+            <tr><td>VI</td><td>R$ 26.439,27</td><td>R$ 29.352,07</td><td>R$ 32.488,91</td><td>R$ 33.609,24</td></tr>
+            <tr><td>VII</td><td>R$ 28.007,70</td><td>R$ 30.696,43</td><td>R$ 34.057,35</td><td>R$ 35.849,86</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 13.443,69 (Cl.A · N-I)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 35.849,86 (Cl.D · N-VII)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Nível Médio — Analista Ministerial</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>R$ 6.721,82</td><td>R$ 7.394,03</td><td>R$ 7.842,17</td><td>R$ 8.402,30</td></tr>
+            <tr><td>II</td><td>R$ 7.842,17</td><td>R$ 8.402,30</td><td>R$ 8.962,44</td><td>R$ 9.634,67</td></tr>
+            <tr><td>III</td><td>R$ 8.962,44</td><td>R$ 9.634,67</td><td>R$ 10.754,93</td><td>R$ 11.651,19</td></tr>
+            <tr><td>IV</td><td>R$ 10.754,93</td><td>R$ 11.651,19</td><td>R$ 12.771,51</td><td>R$ 13.667,77</td></tr>
+            <tr><td>V</td><td>R$ 12.771,51</td><td>R$ 13.667,77</td><td>R$ 14.564,02</td><td>R$ 15.684,32</td></tr>
+            <tr><td>VI</td><td>R$ 14.564,02</td><td>R$ 15.684,32</td><td>R$ 16.356,48</td><td>R$ 17.364,79</td></tr>
+            <tr><td>VII</td><td>R$ 16.356,49</td><td>R$ 17.364,79</td><td>R$ 17.924,91</td><td>R$ 19.045,26</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 6.721,82 (Cl.A · N-I)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 19.045,26 (Cl.D · N-VII)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Nível Elementar — Analista Ministerial</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>R$ 5.153,46</td><td>R$ 5.601,55</td><td>R$ 6.161,69</td><td>R$ 6.721,82</td></tr>
+            <tr><td>II</td><td>R$ 6.161,69</td><td>R$ 6.721,82</td><td>R$ 7.394,03</td><td>R$ 8.066,21</td></tr>
+            <tr><td>III</td><td>R$ 7.394,03</td><td>R$ 8.066,21</td><td>R$ 8.738,43</td><td>R$ 9.410,57</td></tr>
+            <tr><td>IV</td><td>R$ 8.738,43</td><td>R$ 9.410,57</td><td>R$ 10.306,82</td><td>R$ 11.203,10</td></tr>
+            <tr><td>V</td><td>R$ 10.306,82</td><td>R$ 11.203,10</td><td>R$ 11.875,28</td><td>R$ 12.547,44</td></tr>
+            <tr><td>VI</td><td>R$ 11.875,28</td><td>R$ 12.547,44</td><td>R$ 13.443,69</td><td>R$ 14.115,91</td></tr>
+            <tr><td>VII</td><td>R$ 13.443,69</td><td>R$ 14.115,91</td><td>R$ 15.012,14</td><td>R$ 15.684,32</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 5.153,46 (Cl.A · N-I)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 15.684,32 (Cl.D · N-VII)</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div><!-- /modal-mpe -->
+
+  <!-- ──── MODAL TCE-MT ──── -->
+  <div id="modal-tce" class="modal-overlay" onclick="fecharModalSe(event,'modal-tce')">
+    <div class="modal-box">
+      <button class="modal-fechar" onclick="fecharModal('modal-tce')">✕</button>
+      <div class="modal-titulo">TCE-MT — Tabelas Salariais (2025/2026)</div>
+      <div class="modal-sub">Tribunal de Contas de Mato Grosso · 4 Classes (A–D) · 6 Níveis (1–6)</div>
+
+      <div class="modal-secao">Auditor Público Externo — Nível Superior</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 19.196,56</td><td>R$ 21.814,28</td><td>R$ 24.788,95</td><td>R$ 28.169,28</td></tr>
+            <tr><td>2</td><td>R$ 20.753,07</td><td>R$ 23.583,02</td><td>R$ 26.798,86</td><td>R$ 30.453,26</td></tr>
+            <tr><td>3</td><td>R$ 22.435,74</td><td>R$ 25.495,16</td><td>R$ 28.971,75</td><td>R$ 32.922,46</td></tr>
+            <tr><td>4</td><td>R$ 24.254,86</td><td>R$ 27.562,34</td><td>R$ 31.320,83</td><td>R$ 35.591,84</td></tr>
+            <tr><td>5</td><td>R$ 26.221,44</td><td>R$ 29.797,11</td><td>R$ 33.860,35</td><td>R$ 38.477,67</td></tr>
+            <tr><td>6</td><td>R$ 28.347,52</td><td>R$ 32.213,10</td><td>R$ 36.605,78</td><td>R$ 41.597,47</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 19.196,56 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 41.597,47 (Cl.D · N6)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Técnico de Controle Público Externo — Nível Médio</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 13.724,77</td><td>R$ 15.421,10</td><td>R$ 17.327,09</td><td>R$ 19.468,62</td></tr>
+            <tr><td>2</td><td>R$ 15.082,18</td><td>R$ 16.946,25</td><td>R$ 19.040,74</td><td>R$ 21.394,09</td></tr>
+            <tr><td>3</td><td>R$ 16.573,81</td><td>R$ 18.622,27</td><td>R$ 20.923,89</td><td>R$ 23.509,98</td></tr>
+            <tr><td>4</td><td>R$ 18.212,98</td><td>R$ 20.464,02</td><td>R$ 22.993,29</td><td>R$ 25.835,14</td></tr>
+            <tr><td>5</td><td>R$ 20.014,26</td><td>R$ 22.487,94</td><td>R$ 25.267,35</td><td>R$ 28.390,29</td></tr>
+            <tr><td>6</td><td>R$ 21.993,70</td><td>R$ 24.712,03</td><td>R$ 27.766,31</td><td>R$ 31.198,11</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 13.724,77 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 31.198,11 (Cl.D · N6)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Agente de Apoio Técnico — Nível Fundamental</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>R$ 8.921,11</td><td>R$ 10.023,71</td><td>R$ 11.262,61</td><td>R$ 12.654,62</td></tr>
+            <tr><td>2</td><td>R$ 9.803,41</td><td>R$ 11.015,06</td><td>R$ 12.376,48</td><td>R$ 13.906,17</td></tr>
+            <tr><td>3</td><td>R$ 10.772,97</td><td>R$ 12.104,47</td><td>R$ 13.600,53</td><td>R$ 15.281,51</td></tr>
+            <tr><td>4</td><td>R$ 11.838,44</td><td>R$ 13.301,61</td><td>R$ 14.945,63</td><td>R$ 16.792,86</td></tr>
+            <tr><td>5</td><td>R$ 13.009,28</td><td>R$ 14.617,16</td><td>R$ 16.423,80</td><td>R$ 18.453,68</td></tr>
+            <tr><td>6</td><td>R$ 14.295,92</td><td>R$ 16.062,83</td><td>R$ 18.048,12</td><td>R$ 20.278,78</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="4" style="text-align:left">R$ 8.921,11 (Cl.A · N1)</td></tr><tr><td>Teto</td><td colspan="4" style="text-align:left">R$ 20.278,78 (Cl.D · N6)</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div><!-- /modal-tce -->
+
+  <!-- ──── MODAL DPE-MT ──── -->
+  <div id="modal-dpe" class="modal-overlay" onclick="fecharModalSe(event,'modal-dpe')">
+    <div class="modal-box">
+      <button class="modal-fechar" onclick="fecharModal('modal-dpe')">✕</button>
+      <div class="modal-titulo">DPE-MT — Tabelas Salariais (vigência jan/2026)</div>
+      <div class="modal-sub">Defensoria Pública de Mato Grosso · 6 Classes (A–F) · 10 Níveis (I–X)</div>
+
+      <div class="modal-secao">Analista — Tabela 52</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe">E</th><th class="th-classe">F</th></tr></thead>
+          <tbody>
+            <tr><td>I</td>  <td>R$ 8.051,57</td><td>R$ 10.766,34</td><td>R$ 14.400,83</td><td>R$ 18.475,82</td><td>R$ 24.848,32</td><td>R$ 27.255,63</td></tr>
+            <tr><td>II</td> <td>R$ 8.252,86</td><td>R$ 11.037,56</td><td>R$ 14.760,85</td><td>R$ 19.186,55</td><td>R$ 25.096,81</td><td>R$ 28.653,69</td></tr>
+            <tr><td>III</td><td>R$ 8.459,17</td><td>R$ 11.315,63</td><td>R$ 15.129,87</td><td>R$ 19.666,22</td><td>R$ 25.347,77</td><td>R$ 29.370,04</td></tr>
+            <tr><td>IV</td> <td>R$ 8.670,65</td><td>R$ 11.600,69</td><td>R$ 15.508,11</td><td>R$ 20.157,84</td><td>R$ 25.601,24</td><td>R$ 30.104,24</td></tr>
+            <tr><td>V</td>  <td>R$ 8.887,43</td><td>R$ 11.892,93</td><td>R$ 15.895,82</td><td>R$ 20.661,79</td><td>R$ 25.857,25</td><td>R$ 30.856,86</td></tr>
+            <tr><td>VI</td> <td>R$ 9.109,62</td><td>R$ 12.192,56</td><td>R$ 16.293,22</td><td>R$ 21.178,33</td><td>R$ 26.115,82</td><td>R$ 31.628,25</td></tr>
+            <tr><td>VII</td><td>R$ 9.337,36</td><td>R$ 12.499,71</td><td>R$ 16.700,55</td><td>R$ 21.707,80</td><td>R$ 26.376,98</td><td>R$ 32.418,98</td></tr>
+            <tr><td>VIII</td><td>R$ 9.570,77</td><td>R$ 12.820,68</td><td>R$ 17.118,05</td><td>R$ 22.250,04</td><td>R$ 26.640,77</td><td>R$ 33.228,16</td></tr>
+            <tr><td>IX</td> <td>R$ 9.810,04</td><td>R$ 13.138,04</td><td>R$ 17.546,02</td><td>R$ 22.806,74</td><td>R$ 26.907,17</td><td>R$ 34.060,10</td></tr>
+            <tr><td>X</td>  <td>R$ 10.055,28</td><td>R$ 13.468,37</td><td>R$ 17.984,66</td><td>R$ 23.222,71</td><td>R$ 27.176,24</td><td>R$ 34.467,62</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="6" style="text-align:left">R$ 8.051,57 (Cl.A · N-I)</td></tr><tr><td>Teto</td><td colspan="6" style="text-align:left">R$ 34.467,62 (Cl.F · N-X)</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="modal-secao">Técnico Administrativo — Tabela 53</div>
+      <div class="tabela-wrap">
+        <table>
+          <thead><tr><th>Nível</th><th class="th-classe">A</th><th class="th-classe">B</th><th class="th-classe">C</th><th class="th-classe">D</th><th class="th-classe">E</th><th class="th-classe">F</th></tr></thead>
+          <tbody>
+            <tr><td>I</td>  <td>R$ 3.748,74</td><td>R$ 5.489,31</td><td>R$ 8.550,07</td><td>R$ 10.890,36</td><td>R$ 16.260,37</td><td>R$ 20.986,64</td></tr>
+            <tr><td>II</td> <td>R$ 3.844,85</td><td>R$ 5.630,59</td><td>R$ 8.766,48</td><td>R$ 11.356,34</td><td>R$ 16.422,97</td><td>R$ 22.069,21</td></tr>
+            <tr><td>III</td><td>R$ 3.943,45</td><td>R$ 5.775,55</td><td>R$ 8.988,35</td><td>R$ 11.643,83</td><td>R$ 16.587,20</td><td>R$ 22.631,27</td></tr>
+            <tr><td>IV</td> <td>R$ 4.044,60</td><td>R$ 5.924,21</td><td>R$ 9.215,87</td><td>R$ 11.938,61</td><td>R$ 16.753,06</td><td>R$ 23.207,65</td></tr>
+            <tr><td>V</td>  <td>R$ 4.148,34</td><td>R$ 6.076,71</td><td>R$ 9.449,09</td><td>R$ 12.240,81</td><td>R$ 16.920,61</td><td>R$ 23.798,69</td></tr>
+            <tr><td>VI</td> <td>R$ 4.254,70</td><td>R$ 6.233,17</td><td>R$ 9.688,27</td><td>R$ 12.550,72</td><td>R$ 17.089,81</td><td>R$ 24.404,81</td></tr>
+            <tr><td>VII</td><td>R$ 4.363,85</td><td>R$ 6.393,63</td><td>R$ 9.933,49</td><td>R$ 12.868,46</td><td>R$ 17.260,70</td><td>R$ 25.026,35</td></tr>
+            <tr><td>VIII</td><td>R$ 4.475,76</td><td>R$ 6.558,23</td><td>R$ 10.184,91</td><td>R$ 13.194,23</td><td>R$ 17.433,32</td><td>R$ 25.663,74</td></tr>
+            <tr><td>IX</td> <td>R$ 4.590,58</td><td>R$ 6.727,08</td><td>R$ 10.442,70</td><td>R$ 13.702,25</td><td>R$ 17.607,66</td><td>R$ 26.818,42</td></tr>
+            <tr><td>X</td>  <td>R$ 4.708,31</td><td>R$ 6.900,26</td><td>R$ 10.706,99</td><td>R$ 14.017,55</td><td>R$ 17.783,73</td><td>R$ 27.410,36</td></tr>
+          </tbody>
+          <tfoot><tr><td>Piso</td><td colspan="6" style="text-align:left">R$ 3.748,74 (Cl.A · N-I)</td></tr><tr><td>Teto</td><td colspan="6" style="text-align:left">R$ 27.410,36 (Cl.F · N-X)</td></tr></tfoot>
+        </table>
+      </div>
+      <p class="nota">A DPE-MT não possui cargo equivalente ao Nível Fundamental. O piso comparativamente baixo (Cl.A) reflete a estrutura de 6 classes — servidores ingressam na Cl.A mas progridem com maior amplitude.</p>
+    </div>
+  </div><!-- /modal-dpe -->
+
+<script>
+  function mostrar(id, btn) {
+    document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.getElementById('secao-' + id).classList.add('ativa');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function mostrarAno(ano, btn) {
+    document.querySelectorAll('.ano-painel').forEach(p => p.classList.remove('ativo'));
+    document.querySelectorAll('.ano-tabs button').forEach(b => b.classList.remove('active'));
+    document.getElementById('ano-' + ano).classList.add('ativo');
+    btn.classList.add('active');
+  }
+
+  function abrirModal(id) {
+    document.getElementById(id).classList.add('aberto');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('aberto');
+    document.body.style.overflow = '';
+  }
+
+  function fecharModalSe(e, id) {
+    if (e.target === document.getElementById(id)) fecharModal(id);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.aberto').forEach(m => {
+        m.classList.remove('aberto');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
