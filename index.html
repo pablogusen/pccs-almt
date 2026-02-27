@@ -508,6 +508,49 @@
       margin-bottom: 10px; padding-bottom: 6px;
       border-bottom: 1px solid var(--cinza2);
     }
+  /* ──────── TIMER COMISSÃO ──────── */
+  .timer-wrap {
+    margin: 28px auto 0;
+    text-align: center;
+  }
+  .timer-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--cinza3);
+    margin-bottom: 10px;
+  }
+  .timer-grid {
+    display: inline-flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .timer-bloco {
+    background: var(--cinza1);
+    border: 1px solid var(--cinza2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    min-width: 72px;
+  }
+  .timer-bloco .t-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--azul);
+    line-height: 1;
+  }
+  .timer-bloco .t-leg {
+    font-size: 10px;
+    color: var(--cinza3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 4px;
+  }
+  .timer-expirado {
+    font-size: 13px;
+    color: var(--cinza3);
+    font-style: italic;
+  }
   </style>
 </head>
 <body>
@@ -526,6 +569,7 @@
      NAVEGAÇÃO
 ══════════════════════════════════════════════════════════ -->
 <nav class="tabs">
+  <button onclick="mostrar('comissao', this)">Comissão de Trabalho</button>
   <button class="active" onclick="mostrar('vigente', this)">PCCS Vigente</button>
   <button onclick="mostrar('outros', this)">Outros Planos</button>
   <button onclick="mostrar('novo', this)">Novo PCCS</button>
@@ -535,6 +579,67 @@
      CONTEÚDO
 ══════════════════════════════════════════════════════════ -->
 <div class="conteudo">
+
+  <!-- ╔══════════════════════════════════════╗
+       ║  SEÇÃO 0 – COMISSÃO DE TRABALHO   ║
+       ╚══════════════════════════════════════╝ -->
+  <div id="secao-comissao" class="secao">
+
+    <div class="secao-titulo">Ato nº 402/2026 — Comissão de Trabalho para o Novo PCCS</div>
+
+    <div class="kpi-grid" style="margin-bottom:24px">
+      <div class="kpi"><div class="num">27/02/2026</div><div class="sub">Publicação no D.O. ALMT</div></div>
+      <div class="kpi"><div class="num">180 dias</div><div class="sub">Prazo de Conclusão: 26/08/2026</div></div>
+      <div class="kpi"><div class="num">7</div><div class="sub">Membros designados</div></div>
+      <div class="kpi"><div class="num">Lei 7.860/2002</div><div class="sub">Última reestruturação do PCCS — 23 anos</div></div>
+    </div>
+
+    <div class="info-box" style="margin-bottom:24px">
+      <h4>📋 Fundamento e Contexto</h4>
+      <p>A Mesa Diretora da ALMT, com base no art. 24 e art. 26, XIV da Constituição Estadual e no art. 32, I, “d” do Regimento Interno (Resolução nº 677/2006), constituiu comissão para elaboração do novo PCCS, considerando que:</p>
+      <ul style="margin:12px 0 0 20px;line-height:1.9">
+        <li>A última reestruturação do PCCS ocorreu com a <strong>Lei nº 7.860/2002</strong> — mais de 20 anos sem revisão estrutural;</li>
+        <li>A <strong>Lei nº 11.331/2021</strong> converteu o sistema remunerátório para subsídio, sem concessão de reajustes;</li>
+        <li>O PCCS tem como objetivos a valorização dos servidores, qualificação profissional, sistema adequado de subsídio e produtividade.</li>
+      </ul>
+    </div>
+
+    <div class="sucesso-box" style="margin-bottom:32px">
+      <h4>✅ Art. 1º — Constituição da Comissão de Trabalho Temporária</h4>
+      <p>Comissão constituída para elaboração do novo Plano de Cargos, Carreiras e Subsídios do Quadro de Servidores da ALMT, com prazo de <strong>180 (cento e oitenta) dias</strong> para conclusão dos trabalhos.</p>
+    </div>
+
+    <div class="secao-titulo" style="font-size:16px;margin-bottom:16px">Composição da Comissão</div>
+
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Servidor</th><th>Área / Entidade</th><th>Função</th></tr></thead>
+        <tbody>
+          <tr><td>I</td><td>Maythana Rodrigues</td><td>Secretaria de Gestão de Pessoas (SGP)</td><td style="font-weight:600;color:var(--azul)">Presidente</td></tr>
+          <tr><td>II</td><td>Carlos Antonio Dornellas Filho</td><td>Procuradoria-Geral</td><td>Membro</td></tr>
+          <tr><td>III</td><td>Jovanildo Antônio da Silva</td><td>SINDAL — Sindicato dos Servidores do Poder Legislativo de MT</td><td>Membro</td></tr>
+          <tr><td>IV</td><td>Daniel Hoffmann Wagener</td><td>Técnico Legislativo</td><td>Membro</td></tr>
+          <tr><td>V</td><td>Thiago dos Santos Pereira</td><td>Analista Legislativo</td><td>Membro</td></tr>
+          <tr><td>VI</td><td>Luana da Silva e Souza Ikeda</td><td>Técnico Legislativo</td><td>Membro</td></tr>
+          <tr><td>VII</td><td>Rodolfo Murilo Guimarães</td><td>Analista Legislativo</td><td>Membro</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="nota">Assinam: Deputado Max Russi (Presidente da ALMT) · Deputado Dr. João (1º Secretário). Cuiabá, 26 de fevereiro de 2026. Art. 2º: entra em vigor na data de publicação.</p>
+
+    <div class="timer-wrap">
+      <div class="timer-label"><strong>Tempo restante para conclusão dos trabalhos (prazo: 26/08/2026)</strong></div>
+      <div class="timer-grid" id="timer-comissao">
+        <div class="timer-bloco"><div class="t-num" id="t-meses">--</div><div class="t-leg">Meses</div></div>
+        <div class="timer-bloco"><div class="t-num" id="t-dias">--</div><div class="t-leg">Dias</div></div>
+        <div class="timer-bloco"><div class="t-num" id="t-horas">--</div><div class="t-leg">Horas</div></div>
+        <div class="timer-bloco"><div class="t-num" id="t-min">--</div><div class="t-leg">Minutos</div></div>
+        <div class="timer-bloco"><div class="t-num" id="t-seg">--</div><div class="t-leg">Segundos</div></div>
+      </div>
+    </div>
+
+  </div><!-- /secao-comissao -->
 
   <!-- ╔══════════════════════════════════╗
        ║    SEÇÃO 1 – PCCS VIGENTE       ║
@@ -1659,6 +1764,35 @@
   </div><!-- /modal-dpe -->
 
 <script>
+  // ── Timer Comissão ──
+  (function timerComissao() {
+    var prazo = new Date('2026-08-26T23:59:59');
+    function atualizar() {
+      var agora = new Date();
+      var diff = prazo - agora;
+      if (diff <= 0) {
+        document.getElementById('timer-comissao').innerHTML = '<span class="timer-expirado">Prazo encerrado em 26/08/2026</span>';
+        return;
+      }
+      var totalSeg = Math.floor(diff / 1000);
+      var seg      = totalSeg % 60;
+      var totalMin = Math.floor(totalSeg / 60);
+      var min      = totalMin % 60;
+      var totalHr  = Math.floor(totalMin / 60);
+      var horas    = totalHr % 24;
+      var totalDias = Math.floor(totalHr / 24);
+      var meses    = Math.floor(totalDias / 30);
+      var dias     = totalDias % 30;
+      document.getElementById('t-meses').textContent = String(meses).padStart(2,'0');
+      document.getElementById('t-dias').textContent  = String(dias).padStart(2,'0');
+      document.getElementById('t-horas').textContent = String(horas).padStart(2,'0');
+      document.getElementById('t-min').textContent   = String(min).padStart(2,'0');
+      document.getElementById('t-seg').textContent   = String(seg).padStart(2,'0');
+    }
+    atualizar();
+    setInterval(atualizar, 1000);
+  })();
+
   function mostrar(id, btn) {
     document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
     document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
